@@ -1,0 +1,23 @@
+---
+import { toHTML } from '@portabletext/to-html';
+import BlogPost from '../../layouts/BlogPost.astro';
+import { getNota, getNotaSlugs } from '../../lib/queries';
+
+export async function getStaticPaths() {
+  const slugs = await getNotaSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const nota = await getNota(slug);
+
+if (!nota) {
+  return Astro.redirect('/notas', 302);
+}
+
+const bodyHTML = nota.body ? toHTML(nota.body) : '';
+---
+
+<BlogPost nota={nota}>
+  <div set:html={bodyHTML} />
+</BlogPost>

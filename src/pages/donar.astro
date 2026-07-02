@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const DONORBOX_URL = import.meta.env.DONORBOX_URL ?? '';
+---
+
+<BaseLayout
+  title="Donar"
+  description="Apoya el trabajo de Afrocaracolas con una donación. Aceptamos donaciones internacionales a través de Donorbox."
+>
+  <div class="page">
+    <header class="page-header">
+      <h1>Apoya nuestro trabajo</h1>
+      <p class="lead">
+        Tu donación sostiene nuestros procesos de formación política, la investigación afrocentrada 
+        y la defensa del territorio frente al racismo estructural y la crisis climática. 
+        Puedes sumarte y donar desde cualquier parte del mundo.
+      </p>
+    </header>
+
+    <section class="impacto">
+      <h2>¿Cómo usamos tu donación?</h2>
+      <ul class="impacto-lista">
+        <li>
+          <span>🌱</span>
+          <div>
+          <strong>Tallercitas y formación política:</strong>
+          <p>
+            Sostenemos espacios educativos autónomos sobre antirracismo, salud mental, disidencias 
+            y justicia reproductiva para mujeres y niñeces.
+          </p>
+          </div>
+        </li>
+        <li>
+          <span>🎬</span>
+          <div>
+          <strong>Escuela Itinerante de Cine Afro (EICAfro):</strong>
+          <p>
+            Financiamos la creación de narrativas propias y herramientas de comunicación afrocentrada.
+          </p>
+          </div>
+        </li>
+        <li>
+          <span>🌊</span>
+          <div>
+          <strong>Apoyo a mujeres afropescadoras:</strong>
+          <p>
+            Impulsamos proyectos económicos sustentables y equipamiento seguro para enfrentar los impactos de la crisis climática en mar abierto.
+          </p>
+          </div>
+        </li>
+        <li>
+          <span>🔍</span>
+          <div>
+          <strong>Investigación afrocentrada:</strong>
+          <p>
+            Financiamos estudios colectivos e interseccionales para documentar nuestras realidades y la exigencia de reparaciones históricas.
+          </p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="donorbox-section">
+      <h2>Hacer una donación</h2>
+
+      {DONORBOX_URL ? (
+        <div class="donorbox-wrap">
+          <iframe
+            allowpaymentrequest
+            frameborder="0"
+            height="900"
+            name="donorbox"
+            scrolling="no"
+            seamless
+            src={DONORBOX_URL}
+            style="max-width: 500px; min-width: 250px; max-height: none !important; width: 100%;"
+          />
+        </div>
+      ) : (
+        <div class="card proximamente">
+          <p class="proximamente-titulo">
+            Próximamente habilitaremos donaciones en línea.
+          </p>
+          <p class="proximamente-sub">
+            Por ahora contáctanos por nuestras redes sociales.
+          </p>
+          <div class="redes">
+            <!-- Agrega aquí los enlaces a tus redes cuando los tengas -->
+            <a href="https://www.instagram.com/afrocaracolas?igsh=MWVtaDQwazhubGI1ag==" class="btn btn-outline">Instagram</a>
+            <a href="https://www.facebook.com/share/198J1UVWpK/" class="btn btn-outline">Facebook</a>
+          </div>
+        </div>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page { max-width: 720px; margin: 0 auto; }
+  .page-header { margin-bottom: 2.5em; }
+  .page-header h1 { color: var(--accent); font-size: 2.5em; }
+  .lead {
+    font-size: 1.05em;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-top: 0.5em;
+  }
+  h2 { color: var(--accent-light); margin-bottom: 0.75em; }
+  .impacto { margin-bottom: 3em; }
+  .impacto-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  .impacto-lista li {
+    display: flex;
+    gap: 0.75em;
+    align-items: flex-start;
+    font-size: 0.98em;
+  }
+  .impacto-lista li span:first-child { font-size: 1.3em; flex-shrink: 0; }
+  .donorbox-section { margin-bottom: 3em; }
+  .donorbox-wrap { display: flex; justify-content: center; }
+  .proximamente {
+    text-align: center;
+    padding: 3em 2em;
+  }
+  .proximamente-titulo {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 0.5em;
+  }
+  .proximamente-sub {
+    color: var(--text-muted);
+    margin: 0 0 1.75em;
+  }
+  .redes {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

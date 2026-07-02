@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { getNotas } from '../../lib/queries';
+
+const notas = await getNotas();
+---
+
+<BaseLayout
+  title="Notas"
+  description="Reflexiones, noticias y análisis de Afrocaracolas sobre derechos afrodescendientes y cultura de la Costa Chica."
+>
+  <div class="page">
+    <h1>Notas</h1>
+    <p class="subtitle">
+      Reflexiones, noticias y análisis desde la Costa Chica.
+    </p>
+
+    {
+      notas.length === 0 ? (
+        <div class="empty card">
+          <p>Aún no hay notas publicadas. Vuelve pronto.</p>
+        </div>
+      ) : (
+        <ul class="notas-list">
+          {notas.map((nota) => (
+            <li class="nota-item">
+              <a class="nota-link" href={`/notas/${nota.slug.current}`}>
+                {nota.heroImage && (
+                  <div class="nota-img-wrap">
+                    <img
+                      src={nota.heroImage.asset.url}
+                      alt={nota.heroImage.asset.altText ?? nota.title}
+                      class="nota-img"
+                    />
+                  </div>
+                )}
+                <div class="nota-body">
+                  <time class="nota-date">
+                    <FormattedDate date={new Date(nota.publishedAt)} />
+                  </time>
+                  <h2>{nota.title}</h2>
+                  {nota.excerpt && <p class="nota-excerpt">{nota.excerpt}</p>}
+                  <span class="leer">Leer nota →</span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page { max-width: 720px; margin: 0 auto; }
+  h1 { color: var(--accent); font-size: 2.5em; margin-bottom: 0.2em; }
+  .subtitle { color: var(--text-muted); margin-bottom: 2.5em; }
+  .notas-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .nota-item { border-top: 1px solid var(--border); }
+  .nota-item:last-child { border-bottom: 1px solid var(--border); }
+  .nota-link {
+    display: flex;
+    gap: 1.5em;
+    padding: 1.75em 0;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.1s;
+    align-items: flex-start;
+  }
+  .nota-link:hover .nota-body h2 { color: var(--accent); }
+  .nota-img-wrap {
+    flex-shrink: 0;
+    width: 140px;
+    height: 100px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .nota-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+  }
+  .nota-body { flex: 1; min-width: 0; }
+  .nota-date {
+    display: block;
+    font-size: 0.8em;
+    color: var(--accent);
+    margin-bottom: 0.3em;
+  }
+  .nota-body h2 {
+    font-size: 1.2em;
+    margin: 0 0 0.4em;
+    transition: color 0.15s;
+  }
+  .nota-excerpt {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    margin: 0 0 0.75em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .leer {
+    font-size: 0.85em;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .empty {
+    text-align: center;
+    padding: 3em 2em;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 2em;
+  }
+  .empty p { margin: 0; }
+  @media (max-width: 520px) {
+    .nota-img-wrap { display: none; }
+  }
+</style>
