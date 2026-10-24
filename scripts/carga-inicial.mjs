@@ -1,8 +1,9 @@
 // Carga inicial de contenido en Sanity.
 //
-//   npm run carga-inicial              → crea lo que falta, sin tocar lo que ya se editó
-//   npm run carga-inicial -- --simular → muestra lo que cargaría, sin escribir nada
-//   npm run carga-inicial -- --forzar  → reemplaza los campos de esta carga con los textos de docs/
+//   npm run carga-inicial                         → crea lo que falta, sin tocar lo que ya se editó
+//   npm run carga-inicial -- --simular            → muestra lo que cargaría, sin escribir nada
+//   npm run carga-inicial -- --forzar             → reemplaza los campos de esta carga con los textos de docs/
+//   npm run carga-inicial -- --solo=paginaNosotras → limita la carga a un documento (se combina con --forzar)
 //
 // Usa SANITY_WRITE_TOKEN de .env.local. Se puede correr varias veces: los documentos tienen
 // _id fijo (no se duplican) y, sin --forzar, solo se llenan los campos vacíos.
@@ -15,6 +16,7 @@ import { createClient } from '@sanity/client';
 const raiz = fileURLToPath(new URL('..', import.meta.url));
 const simular = process.argv.includes('--simular');
 const forzar = process.argv.includes('--forzar');
+const solo = process.argv.find((a) => a.startsWith('--solo='))?.slice('--solo='.length);
 
 if (existsSync(`${raiz}.env.local`)) process.loadEnvFile(`${raiz}.env.local`);
 const { SANITY_PROJECT_ID, SANITY_DATASET, SANITY_WRITE_TOKEN } = process.env;
@@ -31,17 +33,20 @@ const EJES = [
   ['Autonomía política', 'autonomia-politica'],
   ['Autonomía económica', 'autonomia-economica'],
   ['Formación Cimarrona', 'formacion-cimarrona'],
-  ['EICAfro', 'eicafro'],
+  ['ElCAfro', 'elcafro'],
   ['Investigación afrocentrada', 'investigacion-afrocentrada'],
 ];
+
+// Documentos que se reemplazaron por otro _id. Se borran solo si nada los referencia.
+const REEMPLAZADOS = {
+  'eje-eicafro': 'eje-elcafro', // El eje se llama ElCAfro (El Cine Afro), no EICAfro.
+};
 
 const PROYECTOS = [
   ['Agenda Política de los derechos político-electorales de las mujeres afromexicanas', 'agenda-politica', 'autonomia-politica'],
   ['Cartilla de derechos de las mujeres afromexicanas', 'cartilla-de-derechos', 'autonomia-politica'],
 ];
 
-const LEYENDA_DONATARIA =
-  'Afrocaracolas está en proceso de ser donataria autorizada. Por ahora los donativos no son deducibles de impuestos.';
 const FRASE_CIERRE = 'Hoy alzamos nuestras voces cimarronas.';
 const REDES = {
   instagram: 'https://www.instagram.com/afrocaracolas',
@@ -50,9 +55,11 @@ const REDES = {
 
 // ── Lectura de los textos de docs/contenido ──────────────────────────────
 
+const leer = (ruta) => readFileSync(`${raiz}${ruta}`, 'utf8');
+
 /** Separa un .md en secciones `## Título` → lista de párrafos y elementos de lista. */
 function secciones(ruta) {
-  const lineas = readFileSync(`${raiz}${ruta}`, 'utf8').split(/\r?\n/);
+  const lineas = leer(ruta).split(/\r?\n/);
   const salida = {};
   let actual = null;
   let item = null;
@@ -86,6 +93,21 @@ function secciones(ruta) {
   }
   cerrar();
   return salida;
+}
+
+/** Párrafos de un texto plano copiado de PDF: los separa una línea vacía; los saltos internos se unen. */
+function parrafos(ruta) {
+  return leer(ruta)
+    .split(/\r?\n\s*\r?\n/)
+    .map((p) => p.split(/\r?\n/).map((l) => l.trim()).filter(Boolean).join(' '))
+    .filter(Boolean);
+}
+
+/** Reemplaza `de` por `a` exactamente una vez en la lista de párrafos (cortes de PDF). */
+function corregir(lista, de, a) {
+  const veces = lista.reduce((n, p) => n + p.split(de).length - 1, 0);
+  if (veces !== 1) throw new Error(`Esperaba encontrar «${de}» una vez y lo encontré ${veces}.`);
+  return lista.map((p) => p.replace(de, a));
 }
 
 /** Título de un elemento de lista: sin el emoji del inicio, sin ** y sin los dos puntos finales. */
@@ -126,61 +148,66 @@ const local = (es) => ({ es });
 const bloqueLocal = (campo, items) => ({ es: bloques(campo, items) });
 
 // ── Página Nosotras ───────────────────────────────────────────────────────
+// Fuente principal: el texto de Gema. De quienes-somos.md solo se toman misión, visión
+// y «Lo que hacemos», que el texto de Gema no cubre.
 
-const RUTA_QS = 'docs/contenido/quienes-somos.md';
 const RUTA_GEMA = 'docs/contenido/quienes-somos-gema.md';
+const RUTA_QS = 'docs/contenido/quienes-somos.md';
+
+let gema = parrafos(RUTA_GEMA);
+gema = corregir(gema, 'conmemora- ción', 'conmemoración');
+gema = corregir(gema, 'libertad01', 'libertad');
+
+// Cada párrafo de Gema se toma por cómo empieza; al final se revisa que no sobre ninguno.
+const usados = new Set();
+function g(inicio) {
+  const i = gema.findIndex((p) => p.startsWith(inicio));
+  if (i === -1) throw new Error(`No encontré en ${RUTA_GEMA} el párrafo que empieza «${inicio}».`);
+  if (usados.has(i)) throw new Error(`El párrafo «${inicio}» se usa dos veces.`);
+  usados.add(i);
+  return gema[i];
+}
+
+g('¿Quienes somos las afrocaracolas?'); // Título del texto: lo pone el diseño, no va en un bloque.
+
 const qs = secciones(RUTA_QS);
-const qsQuienes = exigir(qs['Quiénes somos'], 'Quiénes somos', RUTA_QS);
-const qsHistoria = exigir(qs['Historia'], 'Historia', RUTA_QS);
 const qsMision = exigir(qs['Misión'], 'Misión', RUTA_QS);
 const qsVision = exigir(qs['Visión'], 'Visión', RUTA_QS);
 const qsHacemos = exigir(qs['Lo que hacemos'], 'Lo que hacemos', RUTA_QS);
 
-const avisos = [];
-if (!existsSync(`${raiz}${RUTA_GEMA}`)) {
-  avisos.push(`No existe ${RUTA_GEMA}: la Página Nosotras se carga solo con ${RUTA_QS}.`);
-}
-
 const paginaNosotras = {
-  // Los párrafos sin un bloque claro van en intro (ver reporte del Bloque 2).
   intro: bloqueLocal('intro', [
-    ...qsQuienes.map((p) => ['normal', p.texto]),
-    ['normal', qsHistoria[1].texto],
-    ['h3', 'Misión'],
-    ...qsMision.map((p) => ['normal', p.texto]),
-    ['h3', 'Visión'],
-    ...qsVision.map((p) => ['normal', p.texto]),
+    ['normal', g('Somos una colectiva antirracista')],
+    ['normal', g('Las lecturas, análisis y posicionamientos')],
   ]),
-  porQueAfrocaracolas: bloqueLocal('porQueAfrocaracolas', [['normal', qsHistoria[2].texto]]),
-  comoEmpezamos: bloqueLocal('comoEmpezamos', [['normal', qsHistoria[0].texto]]),
-  comoTrabajamos: bloqueLocal(
-    'comoTrabajamos',
-    qsHacemos.flatMap((li) => [
+  mision: bloqueLocal('mision', qsMision.map((p) => ['normal', p.texto])),
+  vision: bloqueLocal('vision', qsVision.map((p) => ['normal', p.texto])),
+  porQueAfrocaracolas: bloqueLocal('porQueAfrocaracolas', [['normal', g('Nos llamamos Afrocaracolas')]]),
+  comoTrabajamos: bloqueLocal('comoTrabajamos', [
+    ['normal', g('Trabajamos directamente en las comunidades')],
+    ...qsHacemos.flatMap((li) => [
       ['h3', tituloDeLista(li.cabeza)],
       ['normal', li.cuerpo],
     ]),
-  ),
-  fraseCierre: local(FRASE_CIERRE),
+  ]),
+  incidencia: bloqueLocal('incidencia', [['normal', g('A nivel nacional')]]),
+  comoEmpezamos: bloqueLocal('comoEmpezamos', [
+    ['normal', g('Empezamos a reunirnos')],
+    ['normal', g('Nunca olvidaremos')],
+    ['normal', g('Nuestro camino no ha sido fácil')],
+    ['normal', g('Esta libertad que hoy nos permite soñar')],
+  ]),
+  fraseCierre: local(g(FRASE_CIERRE)),
 };
 
-// ── Página Dona ───────────────────────────────────────────────────────────
-
-const RUTA_DONAR = 'docs/contenido/donar.md';
-const donar = secciones(RUTA_DONAR);
-const donarApoya = exigir(donar['Apoya nuestro trabajo'], 'Apoya nuestro trabajo', RUTA_DONAR);
-const donarUsos = exigir(donar['¿Cómo usamos tu donación?'], '¿Cómo usamos tu donación?', RUTA_DONAR);
-
-const paginaDona = {
-  porQueDonar: bloqueLocal('porQueDonar', donarApoya.map((p) => ['normal', p.texto])),
-  usos: donarUsos.map((li) => {
-    const titulo = tituloDeLista(li.cabeza);
-    return { _type: 'uso', _key: clave('uso', titulo), titulo: local(titulo), texto: local(li.cuerpo) };
-  }),
-};
+const sobrantes = gema.filter((_, i) => !usados.has(i));
+if (sobrantes.length > 0) {
+  throw new Error(`Hay párrafos de ${RUTA_GEMA} sin asignar:\n${sobrantes.map((p) => `  · ${p.slice(0, 80)}…`).join('\n')}`);
+}
 
 // ── Documentos ────────────────────────────────────────────────────────────
 
-const documentos = [
+let documentos = [
   ...EJES.map(([nombre, slug], i) => ({
     _id: `eje-${slug}`,
     _type: 'eje',
@@ -196,12 +223,17 @@ const documentos = [
       estado: 'activo',
     },
   })),
-  { _id: 'ajustesSitio', _type: 'ajustesSitio', campos: { leyendaDonataria: local(LEYENDA_DONATARIA), redes: REDES } },
+  { _id: 'ajustesSitio', _type: 'ajustesSitio', campos: { redes: REDES } },
   { _id: 'paginaNosotras', _type: 'paginaNosotras', campos: paginaNosotras },
-  { _id: 'paginaDona', _type: 'paginaDona', campos: paginaDona },
 ];
 
-for (const aviso of avisos) console.warn(`Aviso: ${aviso}`);
+if (solo) {
+  documentos = documentos.filter((d) => d._id === solo);
+  if (documentos.length === 0) {
+    console.error(`--solo=${solo}: no hay un documento con ese _id en esta carga.`);
+    process.exit(1);
+  }
+}
 
 if (simular) {
   console.log(JSON.stringify(documentos, null, 2));
@@ -225,3 +257,18 @@ await tx.commit({ visibility: 'sync' });
 
 console.log(`Listo: ${documentos.length} documentos ${forzar ? 'reemplazados' : 'creados o completados'} en ${SANITY_DATASET}.`);
 for (const { _id } of documentos) console.log(`  · ${_id}`);
+
+if (!solo) {
+  for (const [viejo, nuevo] of Object.entries(REEMPLAZADOS)) {
+    for (const id of [viejo, `drafts.${viejo}`]) {
+      if (!(await client.getDocument(id))) continue;
+      const referencias = await client.fetch('count(*[references($id)])', { id });
+      if (referencias > 0) {
+        console.warn(`No borré ${id}: lo usan ${referencias} documentos. Cámbialos a ${nuevo} en el Studio.`);
+      } else {
+        await client.delete(id);
+        console.log(`Borré ${id} (lo reemplaza ${nuevo}).`);
+      }
+    }
+  }
+}
