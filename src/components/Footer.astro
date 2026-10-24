@@ -1,71 +1,109 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.jpeg';
+import { DONA_LINK, FACEBOOK_URL, INSTAGRAM_URL, NAV_LINKS, SITE_TITLE } from '../consts';
+import Franja from './Franja.astro';
+
 const year = new Date().getFullYear();
+const enlaces = [...NAV_LINKS.filter((l) => l.href !== '/' && l.href !== '/contacto'), DONA_LINK];
 ---
 
-<footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <p class="footer-name">Afrocaracolas</p>
-      <p class="footer-tagline">
-        Mujeres afrodescendientes de la Costa Chica de Guerrero, México.
+<footer class="site-footer">
+  <div class="contenedor pie">
+    <div class="marca">
+      <div class="nombre">
+        <Image src={logo} alt="" width={56} height={56} densities={[1, 2]} />
+        <div>
+          <p class="titulo">{SITE_TITLE}</p>
+          <p>Saberes Itinerantes</p>
+        </div>
+      </div>
+      <p class="descripcion">
+        Colectiva antirracista y afrofeminista de mujeres afromexicanas. Afropulco y Costa Chica, Guerrero.
       </p>
     </div>
-    <nav class="footer-nav" aria-label="Pie de página">
-      <a href="/">Inicio</a>
-      <a href="/quienes-somos">Quiénes somos</a>
-      <a href="/notas">Notas</a>
-      <a href="/donar">Donar</a>
-    </nav>
+
+    <div class="columnas">
+      <nav aria-label="Sitio">
+        <p class="columna-titulo">Sitio</p>
+        <ul>
+          {enlaces.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
+        </ul>
+      </nav>
+      <div>
+        <p class="columna-titulo">Contacto</p>
+        <ul>
+          <li><a href="/contacto">Contacto</a></li>
+          <li><a href={INSTAGRAM_URL}>Instagram</a></li>
+          <li><a href={FACEBOOK_URL}>Facebook</a></li>
+        </ul>
+      </div>
+    </div>
   </div>
-  <div class="footer-bottom">
-    <p>© {year} Afrocaracolas · Costa Chica, Guerrero, México</p>
-  </div>
+  <p class="contenedor derechos">© {year} {SITE_TITLE}</p>
+  <Franja />
 </footer>
 
 <style>
-  footer {
-    border-top: 1px solid var(--border);
-    margin-top: 4em;
-    padding: 3em 1.5em 2em;
-    color: var(--text-muted);
-    font-size: 0.9em;
+  .site-footer {
+    background: var(--color-negro);
+    color: var(--color-gris-texto);
+    font-size: var(--font-size-sm);
+    border-top: 1px solid var(--color-linea);
   }
-  .footer-inner {
-    max-width: 1100px;
-    margin: 0 auto 2em;
+  .pie {
+    padding-block: var(--space-8) var(--space-6);
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 2em;
     flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-7);
   }
-  .footer-name {
-    font-size: 1.1em;
-    font-weight: 700;
-    color: var(--accent);
-    margin: 0 0 0.25em;
-  }
-  .footer-tagline {
-    margin: 0;
-    max-width: 320px;
-  }
-  .footer-nav {
+  .marca {
+    flex: 1 1 300px;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 14px;
   }
-  .footer-nav a {
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.15s;
+  .nombre {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
   }
-  .footer-nav a:hover { color: var(--accent); }
-  .footer-bottom {
-    max-width: 1100px;
-    margin: 0 auto;
-    border-top: 1px solid var(--border);
-    padding-top: 1.5em;
-    text-align: center;
+  .nombre img {
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
   }
-  .footer-bottom p { margin: 0; }
+  .titulo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--color-blanco);
+  }
+  .descripcion {
+    max-width: 360px;
+  }
+  .columnas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-7);
+  }
+  .columna-titulo {
+    font-weight: 700;
+    color: var(--color-blanco);
+    margin-bottom: 6px;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .derechos {
+    padding-bottom: var(--space-5);
+  }
 </style>

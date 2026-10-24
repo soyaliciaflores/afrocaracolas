@@ -1,27 +1,30 @@
 ---
+import type { ImageMetadata } from 'astro';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE_TITLE } from '../consts';
+import { LANG_TAGS, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 interface Props {
   title: string;
   description?: string;
-  image?: string;
+  image?: ImageMetadata;
 }
-const { title, description, image } = Astro.props;
+const { title, description = SITE_DESCRIPTION, image } = Astro.props;
 const pageTitle = title === SITE_TITLE ? SITE_TITLE : `${title} · ${SITE_TITLE}`;
+const lang = LANG_TAGS[Astro.currentLocale ?? 'es'] ?? 'es-MX';
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
-    <BaseHead title={pageTitle} description={description ?? ''} image={image} />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <BaseHead title={pageTitle} description={description} image={image} />
   </head>
   <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
     <Header />
-    <slot name="after-header" />
-    <main>
+    <main id="contenido">
       <slot />
     </main>
     <Footer />

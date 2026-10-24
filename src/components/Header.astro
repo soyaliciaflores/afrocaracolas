@@ -1,137 +1,203 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/logo.jpeg';
-import HeaderLink from './HeaderLink.astro';
+import { DONA_LINK, NAV_LINKS, SITE_TITLE } from '../consts';
+import Franja from './Franja.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+function estado(href: string) {
+  if (href === path) return 'page';
+  if (href !== '/' && path.startsWith(href + '/')) return 'seccion';
+  return null;
+}
 ---
 
-<header>
-  <nav>
-    <a class="logo" href="/">
-      <Image src={logo} alt="Logo Afrocaracolas" height={44} class="logo-img" />
-      <span class="logo-text">Afrocaracolas</span>
+<header class="site-header">
+  <div class="barra contenedor">
+    <a class="marca" href="/">
+      <Image src={logo} alt="" width={56} height={56} densities={[1, 2]} loading="eager" />
+      <span>{SITE_TITLE}</span>
     </a>
-    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <line x1="3" y1="12" x2="21" y2="12"/>
-        <line x1="3" y1="18" x2="21" y2="18"/>
+
+    <button
+      class="menu-boton"
+      type="button"
+      aria-expanded="false"
+      aria-controls="menu-principal"
+      aria-label="Abrir menú"
+      data-menu-boton
+    >
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path class="icono-abrir" d="M3 6h18M3 12h18M3 18h18" />
+        <path class="icono-cerrar" d="M6 6l12 12M18 6L6 18" />
       </svg>
     </button>
-    <div class="nav-links" id="nav-links">
-      <HeaderLink href="/">Inicio</HeaderLink>
-      <HeaderLink href="/quienes-somos">Quiénes somos</HeaderLink>
-      <HeaderLink href="/notas">Notas</HeaderLink>
-      <a href="/donar" class="btn-donar">Donar</a>
-    </div>
-  </nav>
+
+    <nav id="menu-principal" class="menu" aria-label="Principal">
+      <ul>
+        {NAV_LINKS.map(({ href, label }) => {
+          const e = estado(href);
+          return (
+            <li>
+              <a href={href} aria-current={e === 'page' ? 'page' : undefined} class:list={{ activo: e }}>
+                {label}
+              </a>
+            </li>
+          );
+        })}
+        <li>
+          <a
+            href={DONA_LINK.href}
+            class="dona"
+            aria-current={estado(DONA_LINK.href) === 'page' ? 'page' : undefined}
+          >
+            {DONA_LINK.label}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <Franja />
 </header>
 
 <script>
-  const toggle = document.querySelector('.menu-toggle') as HTMLButtonElement;
-  const links = document.getElementById('nav-links');
-  toggle?.addEventListener('click', () => {
-    const open = links?.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(open));
+  const boton = document.querySelector<HTMLButtonElement>('[data-menu-boton]');
+  const menu = document.getElementById('menu-principal');
+
+  function poner(abierto: boolean) {
+    if (!boton || !menu) return;
+    menu.classList.toggle('abierto', abierto);
+    boton.setAttribute('aria-expanded', String(abierto));
+    boton.setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
+  }
+
+  boton?.addEventListener('click', () => poner(boton.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && boton?.getAttribute('aria-expanded') === 'true') {
+      poner(false);
+      boton.focus();
+    }
   });
 </script>
 
 <style>
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(250, 250, 248, 0.96);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 1.5em;
+  .site-header {
+    background: var(--color-negro);
   }
-  nav {
+  .barra {
+    padding-block: var(--space-4);
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    max-width: 1100px;
-    margin: 0 auto;
-    height: 68px;
+    gap: var(--space-4);
   }
-  .logo {
-    text-decoration: none;
+  .marca {
     display: flex;
     align-items: center;
-    gap: 0.6em;
-    flex-shrink: 0;
+    gap: var(--space-3);
+    color: var(--color-blanco);
+    text-decoration: none;
   }
-  .logo-img {
-    height: 44px;
-    width: auto;
-    border-radius: 50%;
-    display: block;
+  .marca img {
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
   }
-  .logo-text {
-    font-size: 1.15em;
+  .marca span {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 26px;
+    line-height: 1;
+  }
+
+  .menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-5);
+    font-size: var(--font-size-sm);
+  }
+  .menu a {
+    color: var(--color-blanco);
+    text-decoration: none;
+  }
+  .menu a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .menu a.activo {
+    color: var(--color-mango);
     font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.01em;
   }
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 0.25em;
-  }
-  .nav-links :global(a) {
-    padding: 0.5em 0.75em;
-    color: var(--text);
-    text-decoration: none;
-    border-radius: 6px;
-    transition: color 0.15s, background 0.15s;
-    font-size: 0.95em;
-  }
-  .nav-links :global(a:hover),
-  .nav-links :global(a.active) {
-    color: var(--accent);
-    background: rgba(92, 45, 130, 0.08);
-  }
-  .btn-donar {
+  .menu a.dona {
     display: inline-block;
-    padding: 0.45em 1.1em;
-    background: var(--accent);
-    color: #fff !important;
-    font-weight: 700;
-    border-radius: 6px;
+    background: var(--color-dona);
+    color: var(--color-dona-texto);
+    font-weight: 800;
+    padding: 10px var(--space-5);
+    border-radius: var(--radius);
+  }
+  .menu a.dona:hover {
     text-decoration: none;
-    margin-left: 0.5em;
-    font-size: 0.9em;
-    transition: background 0.15s;
+    background: var(--color-blanco);
   }
-  .btn-donar:hover {
-    background: var(--accent-light) !important;
-    color: #fff !important;
-  }
-  .menu-toggle {
+
+  .menu-boton {
     display: none;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
     background: transparent;
-    border: none;
-    color: var(--text);
+    color: var(--color-blanco);
+    border: 2px solid var(--color-linea);
+    border-radius: var(--radius);
     cursor: pointer;
-    padding: 0.25em;
   }
-  @media (max-width: 640px) {
-    .menu-toggle { display: flex; }
-    .logo-text { display: none; }
-    .nav-links {
-      display: none;
-      position: absolute;
-      top: 68px;
-      left: 0;
-      right: 0;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      padding: 0.75em 1.5em 1.25em;
+  .icono-cerrar {
+    display: none;
+  }
+  .menu-boton[aria-expanded='true'] .icono-abrir {
+    display: none;
+  }
+  .menu-boton[aria-expanded='true'] .icono-cerrar {
+    display: inline;
+  }
+
+  /* Menú colapsable: solo con JavaScript; sin JS el menú se acomoda en varias líneas. */
+  @media (max-width: 1080px) {
+    :global(.js) .menu-boton {
+      display: inline-flex;
     }
-    .nav-links.open { display: flex; }
-    .nav-links :global(a) { width: 100%; padding: 0.6em 0.5em; }
-    .btn-donar { margin-left: 0; margin-top: 0.5em; width: 100%; text-align: center; }
+    :global(.js) .menu {
+      display: none;
+      flex-basis: 100%;
+    }
+    :global(.js) .menu.abierto {
+      display: block;
+    }
+    :global(.js) .menu ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      font-size: var(--font-size-base);
+    }
+    :global(.js) .menu li a:not(.dona) {
+      display: block;
+      padding: var(--space-3) 0;
+      border-top: 1px solid var(--color-linea);
+    }
+    :global(.js) .menu a.dona {
+      display: block;
+      text-align: center;
+      margin-top: var(--space-3);
+      padding-block: var(--space-3);
+    }
   }
 </style>

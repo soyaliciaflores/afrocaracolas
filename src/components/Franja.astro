@@ -1,0 +1,23 @@
+---
+// Franja multicolor con los 7 colores de la paleta, repetida 4 veces como en la referencia.
+---
+
+<div class="franja" aria-hidden="true"></div>
+
+<style>
+  .franja {
+    height: var(--franja-alto);
+    background-image: linear-gradient(
+      to right,
+      var(--color-morado) 0 14.2857%,
+      var(--color-azul) 0 28.5714%,
+      var(--color-mango) 0 42.8571%,
+      var(--color-coral) 0 57.1429%,
+      var(--color-verde) 0 71.4286%,
+      var(--color-magenta) 0 85.7143%,
+      var(--color-turquesa) 0 100%
+    );
+    background-size: 25% 100%;
+    background-repeat: repeat-x;
+  }
+</style>
