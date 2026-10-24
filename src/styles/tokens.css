@@ -1,0 +1,71 @@
+/*
+ * Tokens de diseño de Afrocaracolas.
+ * Fuente: sección Diseño de CLAUDE.md y docs/diseno/inicio-referencia.html.
+ * Defínelos solo aquí; el resto del sitio usa estas variables.
+ */
+:root {
+  /* Base */
+  --color-negro: #141013;
+  --color-negro-2: #1f181e;
+  --color-blanco: #ffffff;
+  --color-gris-texto: #d8d0d9; /* texto secundario sobre negro */
+  --color-linea: #3a3038; /* divisores sobre negro */
+
+  /* Paleta (un color por eje) */
+  --color-verde: #12a150; /* Justicia climática y racial */
+  --color-azul: #0a75c2; /* Granja Acuícola */
+  --color-morado: #6b1e92; /* Autonomía política */
+  --color-mango: #ffb627; /* Autonomía económica */
+  --color-coral: #ff5a36; /* Formación Cimarrona · color de Dona */
+  --color-magenta: #c2185b; /* EICAfro */
+  --color-turquesa: #13a3a0; /* Investigación afrocentrada */
+
+  /* Roles */
+  --color-fondo: var(--color-negro);
+  --color-texto: var(--color-blanco);
+  --color-dona: var(--color-coral);
+  --color-dona-texto: var(--color-negro);
+  --color-enlace: var(--color-mango);
+  --color-foco: var(--color-mango);
+
+  /* Tipografía */
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --font-size-base: 18px;
+  --font-size-sm: 16px;
+  --font-size-etiqueta: 14px;
+  --line-height-base: 1.6;
+  --tracking-titulo: -0.02em;
+  --tracking-etiqueta: 0.12em;
+
+  /* Espaciados */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 56px;
+  --space-9: 80px;
+  --space-10: 88px;
+
+  /* Layout */
+  --ancho-max: 1240px;
+  --margen-lateral: 24px;
+
+  /* Radios: esquinas rectas o casi rectas */
+  --radius-sm: 4px;
+  --radius: 6px;
+
+  /* Identidad */
+  --borde-foto: 6px solid var(--color-negro);
+  --sombra-solida: 10px 10px 0;
+  --franja-alto: 14px;
+}
+
+@media (max-width: 480px) {
+  :root {
+    --margen-lateral: 16px;
+  }
+}
