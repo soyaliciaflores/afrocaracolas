@@ -17,7 +17,7 @@ export const COLORES_EJE: Record<string, ColorEje> = {
 	'autonomia-politica': { color: '#6B1E92', colorTexto: BLANCO },
 	'autonomia-economica': { color: '#FFB627', colorTexto: NEGRO },
 	'formacion-cimarrona': { color: '#FF5A36', colorTexto: NEGRO },
-	eicafro: { color: '#C2185B', colorTexto: BLANCO },
+	elcafro: { color: '#C2185B', colorTexto: BLANCO }, // ElCAfro = El Cine Afro
 	'investigacion-afrocentrada': { color: '#13A3A0', colorTexto: NEGRO },
 };
 

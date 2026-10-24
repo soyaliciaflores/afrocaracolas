@@ -43,7 +43,7 @@ Objetivo del sitio: que una persona donante entienda qué hace la colectiva en t
 - Afrocaracolas se describe como **colectiva antirracista y afrofeminista**. Es A.C., pero en los textos visibles se usa "colectiva".
 - Fechas y números en formato es-MX.
 - **Seguridad de las integrantes**: algunas viven violencia en Guerrero. No publiques nombres completos, localidades ni fotos de integrantes salvo que el contenido de Sanity lo traiga explícitamente autorizado.
-- Donativos: Afrocaracolas **no es donataria autorizada** todavía. Cualquier sección de donar debe decir: "Afrocaracolas está en proceso de ser donataria autorizada. Por ahora los donativos no son deducibles de impuestos."
+- Donativos: no menciones en el sitio el estatus de donataria ni la deducibilidad de impuestos. Si una sección lo necesita, pregunta antes.
 
 ## Mapa del sitio
 
@@ -74,8 +74,10 @@ Cada eje tiene un color fijo que se usa en todo el sitio (etiquetas, tarjetas, l
 | Autonomía política | `autonomia-politica` | `#6B1E92` morado | blanco |
 | Autonomía económica | `autonomia-economica` | `#FFB627` mango | negro |
 | Formación Cimarrona | `formacion-cimarrona` | `#FF5A36` coral | negro |
-| EICAfro | `eicafro` | `#C2185B` magenta | blanco |
+| ElCAfro | `elcafro` | `#C2185B` magenta | blanco |
 | Investigación afrocentrada | `investigacion-afrocentrada` | `#13A3A0` turquesa | negro |
+
+ElCAfro = El Cine Afro.
 
 Proyectos confirmados de Autonomía política: *Agenda Política de los derechos político-electorales de las mujeres afromexicanas* y *Cartilla de derechos de las mujeres afromexicanas*. Los demás ejes todavía no tienen proyectos confirmados.
 

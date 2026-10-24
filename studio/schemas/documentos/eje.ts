@@ -10,7 +10,7 @@ export const SLUGS_EJES = [
   'autonomia-politica',
   'autonomia-economica',
   'formacion-cimarrona',
-  'eicafro',
+  'elcafro',
   'investigacion-afrocentrada',
 ];
 
