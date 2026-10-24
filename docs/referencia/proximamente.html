@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Afrocaracolas — Próximamente</title>
+  <meta name="description" content="El sitio de Afrocaracolas está en construcción. Pronto encontrarás aquí nuestra historia y comunidad.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0B2926;
+      --cream:    #F4ECDA;
+      --gold:     #D9993B;
+      --gold-dim: rgba(217,153,59,0.4);
+      --muted:    rgba(244,236,218,0.5);
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--cream);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle warm glows in the background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 45% at 75% 15%, rgba(217,153,59,0.08) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 35% at 15% 85%, rgba(180,80,40,0.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 480px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Shell SVG ─── */
+    .shell-wrap {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 2.25rem;
+      display: block;
+    }
+
+    /* Draw-on: each path animates its own dashoffset */
+    .sp1 { stroke-dasharray: 230; stroke-dashoffset: 230; animation: draw 1.8s cubic-bezier(.4,0,.2,1) 0.1s forwards; }
+    .sp2 { stroke-dasharray: 165; stroke-dashoffset: 165; animation: draw 1.5s cubic-bezier(.4,0,.2,1) 0.55s forwards; }
+    .sp3 { stroke-dasharray: 115; stroke-dashoffset: 115; animation: draw 1.3s cubic-bezier(.4,0,.2,1) 0.9s forwards; }
+    .sp4 { stroke-dasharray: 65;  stroke-dashoffset: 65;  animation: draw 1.0s cubic-bezier(.4,0,.2,1) 1.15s forwards; }
+    .sp5 { opacity: 0; animation: blink .25s ease 1.6s forwards; }
+
+    @keyframes draw  { to { stroke-dashoffset: 0; } }
+    @keyframes blink { to { opacity: 1; } }
+
+    /* ─── Text fade-in ─── */
+    .fade { opacity: 0; transform: translateY(14px); animation: rise .8s ease forwards; }
+    .d1 { animation-delay: 1.3s; }
+    .d2 { animation-delay: 1.55s; }
+    .d3 { animation-delay: 1.75s; }
+    .d4 { animation-delay: 1.95s; }
+    .d5 { animation-delay: 2.15s; }
+
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sp1,.sp2,.sp3,.sp4 { stroke-dashoffset: 0 !important; animation: none !important; }
+      .sp5 { opacity: 1 !important; animation: none !important; }
+      .fade { opacity: 1 !important; transform: none !important; animation: none !important; }
+    }
+
+    /* ─── Typography ─── */
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.9rem;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(3rem, 10vw, 5.2rem);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0.015em;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+
+    .tagline {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(1.05rem, 3.2vw, 1.3rem);
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+
+    .rule {
+      width: 36px;
+      height: 1px;
+      background: var(--gold-dim);
+      margin: 0 auto 2rem;
+    }
+
+    .message {
+      font-size: 0.9rem;
+      line-height: 1.95;
+      color: var(--muted);
+      margin-bottom: 2.75rem;
+    }
+
+    /* ─── Social + contact ─── */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .contact-line {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .contact-line a {
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold-dim);
+      padding-bottom: 1px;
+      transition: border-color .2s, color .2s;
+    }
+    .contact-line a:hover { border-color: var(--gold); color: #f0be70; }
+
+    .social-row {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .social-row a {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .social-row a:hover { color: var(--cream); }
+  </style>
+</head>
+<body>
+  <main class="container">
+
+    <!-- Caracola — logarithmic spiral, vista frontal -->
+    <svg class="shell-wrap fade d1" viewBox="0 0 80 80" fill="none"
+         xmlns="http://www.w3.org/2000/svg"
+         role="img" aria-label="Espiral de caracola, símbolo de Afrocaracolas">
+      <!-- Arco exterior -->
+      <path class="sp1"
+        d="M40 7 C59 7 68 20 68 38 C68 57 55 68 38 68 C20 68 8 56 8 38 C8 24 15 13 27 9 L33 7"
+        stroke="#D9993B" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Arco medio-exterior -->
+      <path class="sp2"
+        d="M40 17 C52 17 60 26 60 38 C60 50 51 60 39 60 C27 60 20 52 20 41 C20 32 25 24 34 20"
+        stroke="#D9993B" stroke-width="1.2" stroke-linecap="round" opacity="0.72"/>
+      <!-- Arco medio-interior -->
+      <path class="sp3"
+        d="M40 27 C46 27 52 32 52 39 C52 46 46 52 40 52 C33 52 28 47 28 41 C28 36 31 32 36 30"
+        stroke="#D9993B" stroke-width="1" stroke-linecap="round" opacity="0.52"/>
+      <!-- Arco interior -->
+      <path class="sp4"
+        d="M40 34 C43 34 46 36 46 39 C46 42 43 45 40 45 C37 45 34 43 34 40 C34 38 36 36 39 35"
+        stroke="#D9993B" stroke-width="0.8" stroke-linecap="round" opacity="0.36"/>
+      <!-- Centro -->
+      <circle class="sp5" cx="40" cy="39" r="2.8" fill="#D9993B" opacity="0.9"/>
+    </svg>
+
+    <p class="eyebrow fade d1">Próximamente</p>
+    <h1 class="fade d2">Afrocaracolas</h1>
+    <p class="tagline fade d3">Estamos construyendo algo hermoso</p>
+    <div class="rule fade d3"></div>
+
+    <p class="message fade d4">
+      Este sitio está en construcción.<br>
+      Pronto encontrarás aquí nuestra historia,<br>
+      nuestra comunidad y las formas de acompañarnos.
+    </p>
+
+    <div class="links fade d5">
+      <div class="social-row">
+        <!-- Reemplaza # con tus URLs reales -->
+        <a href="https://www.instagram.com/afrocaracolas?igsh=MWVtaDQwazhubGI1ag==" aria-label="Instagram de Afrocaracolas">Instagram</a>
+        <a href="https://www.facebook.com/share/198J1UVWpK/" aria-label="Facebook de Afrocaracolas">Facebook</a>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>
