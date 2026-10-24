@@ -10,14 +10,24 @@ Objetivo del sitio: que una persona donante entienda qué hace la colectiva en t
 - Al terminar cada bloque, Laura se detiene y entrega un reporte (formato al final de este archivo). No empieza el siguiente bloque por su cuenta.
 - Si algo del bloque no está claro o contradice estas reglas, pregunta antes de hacerlo.
 
+## Bloques
+
+1. Base limpia
+2. Sanity (modelo de contenido)
+3. Inicio
+4. Ejes, eje y proyecto
+5. Nosotras, En el tiempo, Dona, Contacto y Observatorio
+6. Revisión final y lanzamiento
+
 ## Reglas de git y despliegue
 
 - Todo el trabajo va en la rama `rediseno`. Nunca hagas commit ni push a `main` ni merge a `main` sin una instrucción explícita.
 - Producción (afrocaracolas.org) hoy es una página "Próximamente" subida a mano con Netlify Drop. No está conectada a este repo. No toques Netlify ni el DNS (Namecheap).
-- El sitio nuevo se despliega en Vercel solo como Preview de `rediseno` hasta que Gema apruebe el lanzamiento.
+- El sitio nuevo se despliega en Vercel desde `rediseno` (rama de producción en Vercel): https://afrocaracolas.vercel.app y el Preview https://afrocaracolas-git-rediseno-imaliciaflores.vercel.app. El dominio afrocaracolas.org no se conecta hasta que Gema apruebe el lanzamiento.
 - Commits pequeños y en español, que digan qué cambió (`Agrega franja multicolor al header`).
 - No instales, quites ni actualices dependencias sin que el bloque lo pida. Si crees que hace falta una, propónla en el reporte.
 - Nunca subas secretos. `.env` y `.env.local` deben estar en `.gitignore`.
+- No uses enlaces simbólicos en el repo. Esta computadora es Windows y Vercel no los desempaqueta bien.
 
 ## Stack
 
@@ -33,7 +43,7 @@ Objetivo del sitio: que una persona donante entienda qué hace la colectiva en t
 - Afrocaracolas se describe como **colectiva antirracista y afrofeminista**. Es A.C., pero en los textos visibles se usa "colectiva".
 - Fechas y números en formato es-MX.
 - **Seguridad de las integrantes**: algunas viven violencia en Guerrero. No publiques nombres completos, localidades ni fotos de integrantes salvo que el contenido de Sanity lo traiga explícitamente autorizado.
-- Donativos: Afrocaracolas **no es donataria autorizada** todavía. Cualquier sección de donar debe decir que, por ahora, los donativos no son deducibles.
+- Donativos: Afrocaracolas **no es donataria autorizada** todavía. Cualquier sección de donar debe decir: "Afrocaracolas está en proceso de ser donataria autorizada. Por ahora los donativos no son deducibles de impuestos."
 
 ## Mapa del sitio
 
@@ -49,7 +59,7 @@ Objetivo del sitio: que una persona donante entienda qué hace la colectiva en t
 | `/dona` | Dona |
 | `/contacto` | Contacto |
 
-Redirecciones: `/quienes-somos` → `/nosotras`, `/donar` → `/dona`.
+Redirecciones (301, en `vercel.json`): `/quienes-somos` → `/nosotras`, `/donar` → `/dona`.
 
 Menú: Inicio · Nosotras · Ejes de trabajo · En el tiempo · Observatorio · Contacto · **Dona** (botón coral).
 
