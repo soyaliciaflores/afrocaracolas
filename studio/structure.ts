@@ -11,6 +11,7 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title('Contenido')
     .items([
+      unico(S, 'paginaInicio', 'Página de Inicio'),
       unico(S, 'ajustesSitio', 'Ajustes del sitio'),
       unico(S, 'paginaNosotras', 'Página Nosotras'),
       unico(S, 'paginaDona', 'Página Dona'),

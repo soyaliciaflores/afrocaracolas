@@ -2,6 +2,100 @@ import { defineArrayMember, defineField, defineType } from 'sanity';
 
 // Documentos únicos: solo existe uno de cada tipo y su _id es igual a su nombre.
 
+/** Comprueba que `parte` aparezca tal cual dentro de `campo` (para resaltarla en amarillo). */
+const estaDentroDe = (campo: string) => (r: any) =>
+  r.custom((parte: { es?: string; en?: string } | undefined, { document }: any) => {
+    const texto = document?.[campo] as { es?: string; en?: string } | undefined;
+    for (const idioma of ['es', 'en'] as const) {
+      if (parte?.[idioma] && texto?.[idioma] && !texto[idioma]!.includes(parte[idioma]!)) {
+        return `Debe ser una parte exacta del texto de arriba (${idioma === 'es' ? 'español' : 'inglés'}).`;
+      }
+    }
+    return true;
+  });
+
+export const paginaInicio = defineType({
+  name: 'paginaInicio',
+  title: 'Página de Inicio',
+  type: 'document',
+  groups: [
+    { name: 'portada', title: 'Portada', default: true },
+    { name: 'quienes', title: 'Quiénes somos' },
+  ],
+  fields: [
+    defineField({
+      name: 'etiquetaPortada',
+      title: 'Etiqueta de la portada',
+      type: 'textoLocal',
+      group: 'portada',
+      description: 'Texto corto en el recuadro amarillo, arriba del título.',
+    }),
+    defineField({
+      name: 'tituloPortada',
+      title: 'Título de la portada',
+      type: 'textoLocal',
+      group: 'portada',
+      description: 'El título grande de la página.',
+    }),
+    defineField({
+      name: 'tituloDestacado',
+      title: 'Parte destacada del título',
+      type: 'textoLocal',
+      group: 'portada',
+      description: 'Copia aquí, tal cual, la parte del título que va en amarillo.',
+      validation: estaDentroDe('tituloPortada'),
+    }),
+    defineField({
+      name: 'subtituloPortada',
+      title: 'Subtítulo de la portada',
+      type: 'textoLargoLocal',
+      group: 'portada',
+      description: 'Una o dos frases debajo del título.',
+    }),
+    defineField({
+      name: 'fotosPortada',
+      title: 'Fotos de la portada',
+      type: 'array',
+      group: 'portada',
+      description: 'Exactamente 3 fotos. La primera va grande y también se usa al compartir el sitio en redes.',
+      of: [defineArrayMember({ type: 'imagen' })],
+      options: { layout: 'grid' },
+      validation: (r) => r.length(3).error('Sube exactamente 3 fotos.'),
+    }),
+    defineField({
+      name: 'fraseQuienesSomos',
+      title: 'Frase de «Quiénes somos»',
+      type: 'textoLargoLocal',
+      group: 'quienes',
+      description: 'La frase grande de la sección «¿Quiénes somos las Afrocaracolas?».',
+    }),
+    defineField({
+      name: 'fraseQuienesSomosDestacada',
+      title: 'Parte destacada de la frase',
+      type: 'textoLocal',
+      group: 'quienes',
+      description: 'Copia aquí, tal cual, la parte de la frase que va en amarillo.',
+      validation: estaDentroDe('fraseQuienesSomos'),
+    }),
+    defineField({
+      name: 'anioInicio',
+      title: 'Año de inicio',
+      type: 'number',
+      group: 'quienes',
+      description: 'Año en que empezó la colectiva. Se muestra como «Desde».',
+      validation: (r) => r.integer().min(1900).max(2100),
+    }),
+    defineField({
+      name: 'territorio',
+      title: 'Territorio',
+      type: 'textoLocal',
+      group: 'quienes',
+      description: 'Dónde trabajan, en pocas palabras.',
+    }),
+  ],
+  preview: { prepare: () => ({ title: 'Página de Inicio' }) },
+});
+
 export const ajustesSitio = defineType({
   name: 'ajustesSitio',
   title: 'Ajustes del sitio',

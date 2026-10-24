@@ -5,7 +5,7 @@ import { proyecto } from './documentos/proyecto';
 import { publicacionRedes } from './documentos/publicacionRedes';
 import { imagen } from './objetos/imagen';
 import { bloqueLocal, contenidoLocal, textoLargoLocal, textoLocal } from './objetos/localizados';
-import { ajustesSitio, paginaDona, paginaNosotras } from './singletons';
+import { ajustesSitio, paginaDona, paginaInicio, paginaNosotras } from './singletons';
 
 export const schemaTypes = [
   // Objetos reutilizables
@@ -15,6 +15,7 @@ export const schemaTypes = [
   contenidoLocal,
   imagen,
   // Documentos únicos
+  paginaInicio,
   ajustesSitio,
   paginaNosotras,
   paginaDona,
@@ -26,4 +27,4 @@ export const schemaTypes = [
   integrante,
 ];
 
-export const SINGLETONS = new Set(['ajustesSitio', 'paginaNosotras', 'paginaDona']);
+export const SINGLETONS = new Set(['paginaInicio', 'ajustesSitio', 'paginaNosotras', 'paginaDona']);
