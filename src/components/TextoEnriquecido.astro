@@ -1,0 +1,103 @@
+---
+// Muestra Portable Text de Sanity: párrafos, subtítulos, citas, listas, negritas, cursivas y enlaces.
+import type { Bloques } from '../lib/queries';
+
+interface Span {
+  _type: 'span';
+  _key: string;
+  text: string;
+  marks?: string[];
+}
+interface Bloque {
+  _type: string;
+  _key: string;
+  style?: string;
+  listItem?: 'bullet' | 'number';
+  children?: Span[];
+  markDefs?: { _key: string; _type: string; href?: string }[];
+}
+
+interface Props {
+  bloques: Bloques;
+  class?: string;
+}
+const { bloques, class: clase } = Astro.props;
+
+// Agrupa los elementos de lista consecutivos en un solo <ul> u <ol>.
+type Grupo = { tipo: 'bloque'; bloque: Bloque } | { tipo: 'lista'; lista: 'bullet' | 'number'; items: Bloque[] };
+const grupos: Grupo[] = [];
+for (const b of bloques as Bloque[]) {
+  if (b._type !== 'block') continue;
+  const ultimo = grupos[grupos.length - 1];
+  if (b.listItem) {
+    if (ultimo?.tipo === 'lista' && ultimo.lista === b.listItem) ultimo.items.push(b);
+    else grupos.push({ tipo: 'lista', lista: b.listItem, items: [b] });
+  } else {
+    grupos.push({ tipo: 'bloque', bloque: b });
+  }
+}
+
+const escapar = (t: string) =>
+  t.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+
+function html(b: Bloque): string {
+  return (b.children ?? [])
+    .map((s) => {
+      let t = escapar(s.text ?? '').replaceAll('\n', '<br>');
+      for (const m of s.marks ?? []) {
+        if (m === 'strong') t = `<strong>${t}</strong>`;
+        else if (m === 'em') t = `<em>${t}</em>`;
+        else {
+          const href = b.markDefs?.find((d) => d._key === m)?.href;
+          if (href) t = `<a href="${escapar(href)}">${t}</a>`;
+        }
+      }
+      return t;
+    })
+    .join('');
+}
+
+const etiqueta = (estilo?: string) =>
+  estilo === 'h3' ? 'h3' : estilo === 'h4' ? 'h4' : estilo === 'blockquote' ? 'blockquote' : 'p';
+---
+
+<div class:list={['texto-enriquecido', clase]}>
+  {
+    grupos.map((g) => {
+      if (g.tipo === 'lista') {
+        const Lista = g.lista === 'number' ? 'ol' : 'ul';
+        return (
+          <Lista>
+            {g.items.map((item) => (
+              <li set:html={html(item)} />
+            ))}
+          </Lista>
+        );
+      }
+      const Etiqueta = etiqueta(g.bloque.style);
+      return <Etiqueta set:html={html(g.bloque)} />;
+    })
+  }
+</div>
+
+<style>
+  .texto-enriquecido {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+  }
+  .texto-enriquecido :global(a) {
+    color: inherit;
+    font-weight: 700;
+  }
+  .texto-enriquecido :global(ul),
+  .texto-enriquecido :global(ol) {
+    margin: 0;
+    padding-left: 1.25em;
+  }
+  .texto-enriquecido :global(blockquote) {
+    margin: 0;
+    padding-left: var(--space-4);
+    border-left: 4px solid currentColor;
+  }
+</style>

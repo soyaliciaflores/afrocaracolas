@@ -1,0 +1,51 @@
+---
+// Imagen del CDN de Sanity con srcset responsivo. Respeta el recorte y el punto focal del Studio.
+import type { Imagen } from '../lib/queries';
+import { urlImagen } from '../lib/sanity';
+
+interface Props {
+  imagen: Imagen;
+  /** Atributo `sizes`: cuánto ocupa la imagen en pantalla. */
+  sizes: string;
+  /** Proporción ancho / alto para recortar, por ejemplo 16 / 9. Sin ella se respeta la original. */
+  proporcion?: number;
+  /** Anchos que se generan para el srcset. */
+  anchos?: number[];
+  /** Para la primera pantalla: carga inmediata y con prioridad. */
+  prioridad?: boolean;
+  /** `true` si la imagen es decorativa (alt vacío). */
+  decorativa?: boolean;
+  class?: string;
+}
+
+const {
+  imagen,
+  sizes,
+  proporcion,
+  anchos = [320, 480, 640, 800, 1024, 1280, 1600],
+  prioridad = false,
+  decorativa = false,
+  class: clase,
+} = Astro.props;
+
+const original = imagen.ancho && imagen.alto ? imagen.ancho / imagen.alto : 1;
+const relacion = proporcion ?? original;
+const utiles = anchos.filter((a) => !imagen.ancho || a <= imagen.ancho);
+const lista = utiles.length > 0 ? utiles : [Math.min(anchos[0], imagen.ancho || anchos[0])];
+const alto = (a: number) => (proporcion ? a / proporcion : undefined);
+const mayor = lista[lista.length - 1];
+---
+
+<img
+  src={urlImagen(imagen, mayor, alto(mayor))}
+  srcset={lista.map((a) => `${urlImagen(imagen, a, alto(a))} ${a}w`).join(', ')}
+  sizes={sizes}
+  width={mayor}
+  height={Math.round(mayor / relacion)}
+  alt={decorativa ? '' : imagen.alt}
+  loading={prioridad ? 'eager' : 'lazy'}
+  fetchpriority={prioridad ? 'high' : undefined}
+  decoding={prioridad ? 'sync' : 'async'}
+  class={clase}
+  style={imagen.lqip ? `background-image: url(${imagen.lqip}); background-size: cover;` : undefined}
+/>

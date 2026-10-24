@@ -14,6 +14,10 @@ const l = (campo: string) => `coalesce(${campo}[$lang], ${campo}.es)`;
 export type Bloques = { _type: string; _key: string; [campo: string]: unknown }[];
 
 export interface Imagen {
+  /** Referencia al asset, con recorte y punto focal: se pasa tal cual a urlImagen(). */
+  asset: { _ref: string };
+  crop?: { top: number; bottom: number; left: number; right: number };
+  hotspot?: { x: number; y: number; height: number; width: number };
   url: string;
   ancho: number;
   alto: number;
@@ -27,6 +31,8 @@ export interface EjeResumen {
   slug: string;
   orden: number;
   nombre: string;
+  /** Nombre completo de una sigla, por ejemplo «Escuela Itinerante de Cine Afro». */
+  nombreCompleto?: string;
   descripcionCorta?: string;
   fotoPrincipal?: Imagen;
   proyectos: ProyectoResumen[];
@@ -117,6 +123,18 @@ export interface Ajustes {
   donorboxUrl?: string;
 }
 
+export interface PaginaInicio {
+  etiquetaPortada?: string;
+  tituloPortada?: string;
+  tituloDestacado?: string;
+  subtituloPortada?: string;
+  fotosPortada: Imagen[];
+  fraseQuienesSomos?: string;
+  fraseQuienesSomosDestacada?: string;
+  anioInicio?: number;
+  territorio?: string;
+}
+
 export interface PaginaNosotras {
   intro?: Bloques;
   mision?: Bloques;
@@ -139,6 +157,9 @@ export interface PaginaDona {
 // ── Fragmentos GROQ ───────────────────────────────────────────────────────
 
 const imagen = (campo: string) => `${campo}{
+  asset,
+  crop,
+  hotspot,
   "url": asset->url,
   "ancho": asset->metadata.dimensions.width,
   "alto": asset->metadata.dimensions.height,
@@ -194,6 +215,7 @@ const ejeResumen = `
   "slug": slug.current,
   orden,
   "nombre": ${l('nombre')},
+  "nombreCompleto": ${l('nombreCompleto')},
   "descripcionCorta": ${l('descripcionCorta')},
   "fotoPrincipal": ${imagen('fotoPrincipal')},
   "proyectos": *[_type == "proyecto" && eje._ref == ^._id] | order(nombre.es asc) ${proyectoResumen}
@@ -312,6 +334,15 @@ export function getLineaDelTiempo(lang: Lang = 'es') {
   );
 }
 
+/** Los momentos más recientes de la línea del tiempo, en orden cronológico (Inicio). */
+export async function getMomentosRecientes(limite = 4, lang: Lang = 'es') {
+  const recientes = await fetch<NotaResumen[]>(
+    `*[_type == "nota" && enLineaDelTiempo == true && defined(publishedAt)] | order(publishedAt desc)[0...$limite] ${notaResumen}`,
+    { limite, lang },
+  );
+  return recientes.reverse();
+}
+
 /** Publicaciones de redes más recientes (Inicio). */
 export function getPublicacionesRedes(limite = 8, lang: Lang = 'es') {
   return fetch<PublicacionRedes[]>(`*[_type == "publicacionRedes"] | order(fecha desc)[0...$limite] ${publicacion}`, {
@@ -329,6 +360,24 @@ export function getIntegrantes(lang: Lang = 'es') {
       "rol": ${l('rol')},
       "descripcion": ${l('descripcion')},
       "foto": select(mostrarFoto == true => ${imagen('foto')}, null)
+    }`,
+    { lang },
+  );
+}
+
+/** Contenido de la Página de Inicio. */
+export function getPaginaInicio(lang: Lang = 'es') {
+  return fetch<PaginaInicio | null>(
+    `*[_id == "paginaInicio"][0]{
+      "etiquetaPortada": ${l('etiquetaPortada')},
+      "tituloPortada": ${l('tituloPortada')},
+      "tituloDestacado": ${l('tituloDestacado')},
+      "subtituloPortada": ${l('subtituloPortada')},
+      "fotosPortada": coalesce(fotosPortada[defined(asset)]${imagen('')}, []),
+      "fraseQuienesSomos": ${l('fraseQuienesSomos')},
+      "fraseQuienesSomosDestacada": ${l('fraseQuienesSomosDestacada')},
+      anioInicio,
+      "territorio": ${l('territorio')}
     }`,
     { lang },
   );

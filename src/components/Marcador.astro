@@ -1,0 +1,52 @@
+---
+// Marca visible de contenido que falta cargar en Sanity, con el estilo de la referencia:
+// recuadro de color con la etiqueta en negritas entre corchetes.
+interface Props {
+  texto: string;
+  fondo?: string;
+  tinta?: string;
+  /** Proporción para huecos de foto, por ejemplo "16 / 9". */
+  proporcion?: string;
+  /** Marco negro grueso, como en las fotos. */
+  marco?: boolean;
+  class?: string;
+}
+
+const {
+  texto,
+  fondo = 'var(--color-negro-2)',
+  tinta = 'var(--color-blanco)',
+  proporcion,
+  marco = false,
+  class: clase,
+} = Astro.props;
+---
+
+<div
+  class:list={['marcador', { 'marcador--foto': proporcion, 'marcador--marco': marco }, clase]}
+  style={`--m-fondo: ${fondo}; --m-tinta: ${tinta};${proporcion ? ` --m-proporcion: ${proporcion};` : ''}`}
+>
+  <p>[{texto}]</p>
+</div>
+
+<style>
+  .marcador {
+    background: var(--m-fondo);
+    color: var(--m-tinta);
+    padding: var(--space-4) 18px;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.35;
+    border-radius: var(--radius-sm);
+  }
+  .marcador--foto {
+    aspect-ratio: var(--m-proporcion);
+    display: flex;
+    align-items: flex-end;
+    border-radius: 0;
+    max-width: 100%;
+  }
+  .marcador--marco {
+    border: var(--borde-foto);
+  }
+</style>
