@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Inicio v2 · Afrocaracolas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#FFB627}a:hover{color:#FFFFFF}
+a:focus-visible,button:focus-visible{outline:3px solid #FFB627;outline-offset:3px}
+</style>
+</helmet>
+<div style="background: #141013; color: #FFFFFF; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; font-size: 18px; line-height: 1.6">
+
+<header style="background: #141013">
+<div style="max-width: 1240px; margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="InicioV2.dc.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #FFFFFF">
+<img src="/_blob/fb0f9bd3c9fe2f97a5efc69422bac25e" alt="Logo de Afrocaracolas" style="width: 56px; height: 56px; border-radius: 999px">
+<span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1">Afrocaracolas</span>
+</a>
+<nav aria-label="Principal" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font-size: 16px">
+<a href="InicioV2.dc.html" style="color: #FFB627; text-decoration: none; font-weight: 700">Inicio</a>
+<a href="NosotrasB.dc.html" style="color: #FFFFFF; text-decoration: none">Nosotras</a>
+<a href="#ejes" style="color: #FFFFFF; text-decoration: none">Ejes de trabajo</a>
+<a href="#tiempo" style="color: #FFFFFF; text-decoration: none">En el tiempo</a>
+<a href="#observatorio" style="color: #FFFFFF; text-decoration: none">Observatorio</a>
+<a href="#contacto" style="color: #FFFFFF; text-decoration: none">Contacto</a>
+<a href="#dona" style="background: #FF5A36; color: #141013; text-decoration: none; font-weight: 800; padding: 10px 24px; border-radius: 6px">Dona</a>
+</nav>
+</div>
+</header>
+
+<div aria-hidden="true" style="display: flex; height: 14px">
+<sc-for list="{{stripe}}" as="c" hint-placeholder-count="28"><span style="flex: 1 1 0; background: {{c}}"></span></sc-for>
+</div>
+
+<section style="background: #6B1E92">
+<div style="max-width: 1240px; margin: 0 auto; padding: 80px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+<div style="flex: 1 1 540px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<span style="align-self: flex-start; background: #FFB627; color: #141013; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; padding: 6px 12px; border-radius: 4px">Colectiva antirracista y afrofeminista</span>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 80px; line-height: 0.96; letter-spacing: -0.025em; text-wrap: balance">Hoy alzamos nuestras <span style="color: #FFB627">voces cimarronas</span></h1>
+<p style="margin: 0; max-width: 580px; font-size: 20px; color: #F1E4F8">Somos mujeres afromexicanas que exigimos y anhelamos las reparaciones históricas para los pueblos y comunidades afrodescendientes. Trabajamos en territorio, en Afropulco y la Costa Chica de Guerrero.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="#dona" style="background: #FFB627; color: #141013; text-decoration: none; font-weight: 800; padding: 14px 32px; border-radius: 6px; font-size: 18px">Dona</a>
+<a href="#ejes" style="background: #141013; color: #FFFFFF; text-decoration: none; font-weight: 700; padding: 14px 28px; border-radius: 6px; font-size: 18px">Conoce nuestro trabajo</a>
+</div>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
+<div style="grid-column: span 2; aspect-ratio: 16 / 9; max-width: 100%; background: #0A75C2; border: 6px solid #141013; box-sizing: border-box; display: flex; align-items: flex-end; padding: 18px; font-size: 15px; font-weight: 700">[Foto principal: asamblea o taller en comunidad]</div>
+<div style="aspect-ratio: 1 / 1; max-width: 100%; background: #FF5A36; border: 6px solid #141013; box-sizing: border-box; display: flex; align-items: flex-end; padding: 16px; color: #141013; font-size: 14px; font-weight: 700">[Foto: ofrenda de flores a las caracolas]</div>
+<div style="aspect-ratio: 1 / 1; max-width: 100%; background: #12A150; border: 6px solid #141013; box-sizing: border-box; display: flex; align-items: flex-end; padding: 16px; color: #141013; font-size: 14px; font-weight: 700">[Foto: integrantes]</div>
+</div>
+</div>
+</section>
+
+<section style="background: #141013">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px 24px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+<div style="flex: 1 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<p style="margin: 0; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: #FFB627">¿Quiénes somos las Afrocaracolas?</p>
+<p style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 40px; line-height: 1.12; letter-spacing: -0.015em; text-wrap: balance">Nos llamamos Afrocaracolas porque somos mujeres valientes, como nuestras abuelas, que reencarnan simbólicamente en caracolas. <span style="color: #FFB627">Nuestras historias vienen del mar.</span></p>
+<a href="NosotrasB.dc.html" style="align-self: flex-start; background: #FFFFFF; color: #141013; text-decoration: none; font-weight: 700; padding: 12px 24px; border-radius: 6px">Conoce nuestra historia</a>
+</div>
+<dl style="flex: 1 1 340px; min-width: 0; margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0">
+<div style="border-top: 3px solid #FFB627; padding: 16px 0; display: flex; flex-direction: column"><dt style="font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #BDB3BF">Desde</dt><dd style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 32px">2021</dd></div>
+<div style="border-top: 3px solid #FF5A36; padding: 16px 0; display: flex; flex-direction: column"><dt style="font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #BDB3BF">Territorio</dt><dd style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 32px">Afropulco y Costa Chica</dd></div>
+<div style="border-top: 3px solid #12A150; padding: 16px 0; display: flex; flex-direction: column"><dt style="font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #BDB3BF">Ejes de trabajo</dt><dd style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 32px">7</dd></div>
+</dl>
+</div>
+</section>
+
+<section id="ejes" style="background: #1F181E">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 720px">
+<p style="margin: 0; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: #FFB627">Ejes de trabajo</p>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -0.02em; text-wrap: balance">Siete caminos, un mismo territorio</h2>
+<p style="margin: 0; color: #D8D0D9">Elige un eje para ver de qué trata y qué proyectos lo sostienen.</p>
+</div>
+<a href="#ejes" style="font-weight: 700">Ver todos los ejes</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch">
+<div role="list" style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ejes}}" as="e" hint-placeholder-count="7">
+<button type="button" onClick="{{e.pick}}" aria-pressed="{{e.on}}" style="display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 14px 18px; border: 2px solid {{e.color}}; background: {{e.bg}}; color: {{e.fg}}; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 21px; line-height: 1.15; cursor: pointer; border-radius: 4px">
+<span aria-hidden="true" style="flex: 0 0 auto; width: 16px; height: 16px; background: {{e.color}}; border: 2px solid {{e.fg}}"></span>
+<span style="flex: 1 1 auto">{{e.name}}</span>
+<span aria-hidden="true" style="flex: 0 0 auto; font-size: 20px">→</span>
+</button>
+</sc-for>
+</div>
+<div style="flex: 2 1 560px; min-width: 0; background: {{eje.color}}; color: {{eje.ink}}; display: flex; flex-direction: column; box-shadow: 12px 12px 0 #FFFFFF">
+<div style="aspect-ratio: 16 / 7; max-width: 100%; background: #141013; color: #FFFFFF; display: flex; align-items: flex-end; padding: 18px; box-sizing: border-box; font-size: 14px; font-weight: 700">[Foto del eje: {{eje.name}}]</div>
+<div style="padding: 32px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700">Eje {{eje.n}} de 7</span>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 44px; line-height: 1.02; letter-spacing: -0.02em">{{eje.name}}</h3>
+<p style="margin: 0; font-size: 18px">{{eje.desc}}</p>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700">Proyectos</span>
+<sc-for list="{{eje.projects}}" as="p" hint-placeholder-count="2">
+<a href="ProyectoB.dc.html" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #141013; color: #FFFFFF; text-decoration: none; font-weight: 700; padding: 12px 16px; border-radius: 4px">
+<span>{{p}}</span><span aria-hidden="true">→</span>
+</a>
+</sc-for>
+</div>
+<a href="#ejes" style="align-self: flex-start; color: {{eje.ink}}; font-weight: 700">Ir al eje {{eje.name}}</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="territorio" style="background: #0A75C2">
+<div style="max-width: 1240px; margin: 0 auto; padding: 80px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+<div style="flex: 0 1 340px; min-width: 0; display: flex; justify-content: center">
+<div style="width: 300px; max-width: 100%; background: #141013; border-radius: 48px; padding: 14px; box-sizing: border-box; box-shadow: 16px 16px 0 #FFB627">
+<div style="aspect-ratio: 9 / 19; background: {{post.tone}}; border-radius: 36px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box; color: {{post.ink}}">
+<div style="align-self: center; width: 90px; height: 24px; background: #141013; border-radius: 999px"></div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<div style="width: 64px; height: 64px; border-radius: 999px; background: #141013; display: flex; align-items: center; justify-content: center">
+<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#FFFFFF"></path></svg>
+</div>
+<span style="font-size: 14px; font-weight: 700">[Video: {{post.media}}]</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px">
+<img src="/_blob/fb0f9bd3c9fe2f97a5efc69422bac25e" alt="" style="width: 28px; height: 28px; border-radius: 999px; background: #FFFFFF">
+<span style="font-weight: 700">@afrocaracolas</span>
+</div>
+</div>
+</div>
+</div>
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<p style="margin: 0; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700">Desde territorio · lo más reciente</p>
+<a href="https://www.instagram.com/afrocaracolas" style="display: flex; align-items: center; gap: 8px; background: #141013; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 15px; padding: 8px 14px; border-radius: 6px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="#FFFFFF"></circle></svg>
+Síguenos @afrocaracolas</a>
+</div>
+<div style="background: #FFFFFF; color: #141013; padding: 28px; display: flex; flex-direction: column; gap: 14px; box-shadow: 10px 10px 0 #141013">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="background: {{post.tone}}; color: {{post.ink}}; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; padding: 4px 10px; border-radius: 4px">Eje · {{post.eje}}</span>
+<span style="background: #F1EEF2; color: #3A3245; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 4px">{{post.date}} · {{post.place}}</span>
+</div>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 40px; line-height: 1.04; letter-spacing: -0.02em; text-wrap: balance">{{post.title}}</h2>
+<p style="margin: 0; font-size: 18px; color: #3A3245">{{post.text}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 4px">
+<a href="ProyectoB.dc.html" style="background: #141013; color: #FFFFFF; text-decoration: none; font-weight: 700; padding: 12px 22px; border-radius: 6px; font-size: 16px">Conoce el proyecto</a>
+<a href="https://www.instagram.com/afrocaracolas" style="background: #FFFFFF; color: #141013; text-decoration: none; font-weight: 700; padding: 10px 20px; border-radius: 6px; font-size: 16px; border: 2px solid #141013">Ver en Instagram</a>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<span style="font-size: 15px; font-weight: 700">Más publicaciones</span>
+<div style="display: flex; gap: 8px">
+<button type="button" onClick="{{prev}}" aria-label="Publicación anterior" style="width: 44px; height: 44px; border-radius: 6px; border: 2px solid #141013; background: #FFFFFF; color: #141013; font-size: 20px; cursor: pointer">‹</button>
+<button type="button" onClick="{{next}}" aria-label="Publicación siguiente" style="width: 44px; height: 44px; border-radius: 6px; border: 2px solid #141013; background: #141013; color: #FFFFFF; font-size: 20px; cursor: pointer">›</button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<sc-for list="{{thumbs}}" as="t" hint-placeholder-count="4">
+<button type="button" onClick="{{t.pick}}" aria-label="Ver {{t.title}}" style="aspect-ratio: 4 / 5; max-width: 100%; background: {{t.tone}}; color: {{t.ink}}; border: {{t.ring}}; padding: 10px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; text-align: left; cursor: pointer; font-family: inherit">
+<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg>
+<span style="font-size: 13px; font-weight: 700; line-height: 1.25">{{t.title}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="background: #FFB627; color: #141013">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 720px">
+<p style="margin: 0; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700">Tu donativo en territorio</p>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -0.02em; text-wrap: balance">¿Qué hacemos con tu donativo?</h2>
+<p style="margin: 0; font-size: 19px">Cada aportación llega directo al trabajo con las comunidades. Así lo usamos:</p>
+</div>
+<a href="#dona" style="background: #141013; color: #FFFFFF; text-decoration: none; font-weight: 800; padding: 14px 32px; border-radius: 6px">Dona</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px">
+<sc-for list="{{uses}}" as="u" hint-placeholder-count="4">
+<article style="background: #141013; color: #FFFFFF; padding: 28px; display: flex; flex-direction: column; gap: 12px; border-top: 10px solid {{u.color}}">
+<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="{{u.color}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{u.icon}}"></path></svg>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1.1">{{u.title}}</h3>
+<p style="margin: 0; font-size: 16px; color: #D8D0D9">{{u.text}}</p>
+</article>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 15px; max-width: 760px">Afrocaracolas está en proceso de ser donataria autorizada. Por ahora los donativos no son deducibles de impuestos. <a href="#dona" style="color: #141013; font-weight: 700">Preguntas frecuentes</a></p>
+</div>
+</section>
+
+<section id="tiempo" style="background: #141013">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 44px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 720px">
+<p style="margin: 0; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: #FFB627">Afrocaracolas en el tiempo</p>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -0.02em; text-wrap: balance">El camino que hemos andado</h2>
+</div>
+<a href="#tiempo" style="font-weight: 700">Ver la línea del tiempo completa</a>
+</div>
+<div style="position: relative">
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 11px; height: 4px; background: #3A3038"></div>
+<ol style="position: relative; margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px">
+<sc-for list="{{moments}}" as="m" hint-placeholder-count="4">
+<li style="display: flex; flex-direction: column; gap: 12px">
+<span aria-hidden="true" style="width: 26px; height: 26px; background: {{m.color}}; border: 4px solid #141013; box-sizing: border-box; outline: 2px solid {{m.color}}"></span>
+<span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 34px; line-height: 1; color: {{m.color}}">{{m.year}}</span>
+<span style="font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: #BDB3BF">{{m.date}}</span>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 22px; line-height: 1.15">{{m.title}}</h3>
+<p style="margin: 0; font-size: 16px; color: #D8D0D9">{{m.text}}</p>
+</li>
+</sc-for>
+</ol>
+</div>
+</div>
+</section>
+
+<section id="observatorio" style="background: #13A3A0; color: #141013">
+<div style="max-width: 1240px; margin: 0 auto; padding: 88px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
+<div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="background: #141013; color: #FFFFFF; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; padding: 5px 12px; border-radius: 4px">Observatorio</span>
+<span style="background: #FFFFFF; color: #141013; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; padding: 5px 12px; border-radius: 4px">Próximamente</span>
+</div>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 52px; line-height: 1.02; letter-spacing: -0.02em; text-wrap: balance">Índice Afromexicano de Armonización Legislativa</h2>
+<p style="margin: 0; max-width: 580px">¿Qué tanto han avanzado los congresos de los 32 estados en reconocer a los pueblos afromexicanos como sujetos de derechos? Publicaremos el índice con resultados por entidad.</p>
+<span style="font-size: 15px; font-weight: 700">Parte del eje Investigación afrocentrada</span>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; background: #141013; padding: 16px; box-sizing: border-box" aria-hidden="true">
+<sc-for list="{{states}}" as="s" hint-placeholder-count="32">
+<div style="aspect-ratio: 1 / 1; background: {{s}}"></div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="dona" style="background: #FF5A36; color: #141013">
+<div style="max-width: 1240px; margin: 0 auto; padding: 80px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px">
+<div style="flex: 1 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -0.02em; text-wrap: balance">Sostén el trabajo de las Afrocaracolas</h2>
+<p style="margin: 0; max-width: 580px">Tu donativo llega a las comunidades de Afropulco y la Costa Chica. También puedes apoyar con una alianza, en especie o con tu tiempo.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="#dona" style="background: #141013; color: #FFFFFF; text-decoration: none; font-weight: 800; padding: 16px 36px; border-radius: 6px; font-size: 18px">Dona</a>
+<a href="#contacto" style="background: #FFFFFF; color: #141013; text-decoration: none; font-weight: 700; padding: 16px 28px; border-radius: 6px; font-size: 18px">Otras formas de apoyar</a>
+</div>
+</div>
+</section>
+
+<footer id="contacto" style="background: #141013; color: #D8D0D9">
+<div style="max-width: 1240px; margin: 0 auto; padding: 56px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; font-size: 16px">
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: center; gap: 12px">
+<img src="/_blob/fb0f9bd3c9fe2f97a5efc69422bac25e" alt="" style="width: 56px; height: 56px; border-radius: 999px">
+<div style="display: flex; flex-direction: column">
+<span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 24px; color: #FFFFFF">Afrocaracolas A.C.</span>
+<span>Saberes Itinerantes</span>
+</div>
+</div>
+<p style="margin: 0; max-width: 360px">Colectiva antirracista y afrofeminista de mujeres afromexicanas. Afropulco y Costa Chica, Guerrero.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-weight: 700; color: #FFFFFF">Sitio</span>
+<a href="NosotrasB.dc.html">Nosotras</a>
+<a href="#ejes">Ejes de trabajo</a>
+<a href="#tiempo">En el tiempo</a>
+<a href="#observatorio">Observatorio</a>
+<a href="#dona">Dona</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-weight: 700; color: #FFFFFF">Contacto</span>
+<span>[correo@afrocaracolas.org]</span>
+<a href="https://www.instagram.com/afrocaracolas">Instagram</a>
+<a href="https://www.facebook.com/share/198J1UVWpK/">Facebook</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-weight: 700; color: #FFFFFF">Legal</span>
+<span>Aviso de privacidad</span>
+</div>
+</div>
+</div>
+<div aria-hidden="true" style="display: flex; height: 14px">
+<sc-for list="{{stripe}}" as="c" hint-placeholder-count="28"><span style="flex: 1 1 0; background: {{c}}"></span></sc-for>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":5600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { eje: 2, post: 0 };
+  }
+  renderVals() {
+    var self = this;
+    var EJES = [
+      { name: 'Justicia climática y racial', color: '#12A150', ink: '#141013', desc: '[Descripción del eje: qué problema atiende y cómo lo trabajamos en territorio.]', projects: ['[Proyectos por confirmar]'] },
+      { name: 'Granja Acuícola', color: '#0A75C2', ink: '#FFFFFF', desc: '[Descripción del eje: qué problema atiende y cómo lo trabajamos en territorio.]', projects: ['[Siembra y cosecha de alevines con mujeres pescadoras, por confirmar]'] },
+      { name: 'Autonomía política', color: '#6B1E92', ink: '#FFFFFF', desc: '[Descripción del eje que compartirá Gema. Histórica y socioculturalmente nos han colocado fuera de la vida política, pública y de toma de decisiones.]', projects: ['Agenda Política de los derechos político-electorales de las mujeres afromexicanas', 'Cartilla de derechos de las mujeres afromexicanas'] },
+      { name: 'Autonomía económica', color: '#FFB627', ink: '#141013', desc: '[Descripción del eje: qué problema atiende y cómo lo trabajamos en territorio.]', projects: ['[Proyectos por confirmar]'] },
+      { name: 'Formación Cimarrona', color: '#FF5A36', ink: '#141013', desc: '[Descripción del eje: qué problema atiende y cómo lo trabajamos en territorio.]', projects: ['[Proyectos por confirmar]'] },
+      { name: 'EICAfro', color: '#C2185B', ink: '#FFFFFF', desc: '[Qué significa EICAfro y qué hacemos en este eje.]', projects: ['[Proyectos por confirmar]'] },
+      { name: 'Investigación afrocentrada', color: '#13A3A0', ink: '#141013', desc: '[Descripción del eje: investigaciones con enfoque étnico-racial.]', projects: ['Índice Afromexicano de Armonización Legislativa', '[Otras investigaciones por confirmar]'] }
+    ];
+    var ei = this.state.eje;
+    var ejes = EJES.map(function (e, k) {
+      var on = k === ei;
+      return { name: e.name, color: e.color, on: on, bg: on ? e.color : '#141013', fg: on ? e.ink : '#FFFFFF', pick: function () { self.setState({ eje: k }); } };
+    });
+    var eje = Object.assign({ n: ei + 1 }, EJES[ei]);
+
+    var POSTS = [
+      { title: 'Taller de la Cartilla de derechos', eje: 'Autonomía política', date: '[Fecha]', place: '[Comunidad]', media: 'taller de la Cartilla', tone: '#6B1E92', ink: '#FFFFFF', text: '[Aquí aparece el texto que acompaña la publicación en redes: qué pasó, quiénes participaron y por qué importa.]' },
+      { title: 'Cosecha de alevines', eje: 'Granja Acuícola', date: '[Fecha]', place: '[Comunidad]', media: 'reel de la cosecha', tone: '#0A75C2', ink: '#FFFFFF', text: '[Descripción de la publicación tal como la escribieron en Instagram.]' },
+      { title: 'Sesión de Formación Cimarrona', eje: 'Formación Cimarrona', date: '[Fecha]', place: '[Comunidad]', media: 'sesión de formación', tone: '#FF5A36', ink: '#141013', text: '[Descripción de la publicación tal como la escribieron en Instagram.]' },
+      { title: 'Trabajo de campo', eje: 'Investigación afrocentrada', date: '[Fecha]', place: 'Acapulco, Guerrero', media: 'entrevistas en campo', tone: '#13A3A0', ink: '#141013', text: '[Descripción de la publicación tal como la escribieron en Instagram.]' }
+    ];
+    var pi = this.state.post;
+    var n = POSTS.length;
+    var thumbs = POSTS.map(function (p, k) {
+      return { title: p.title, tone: p.tone, ink: p.ink, ring: k === pi ? '4px solid #FFFFFF' : '2px solid #141013', pick: function () { self.setState({ post: k }); } };
+    });
+
+    var uses = [
+      { title: 'Traslados a comunidades', color: '#FFB627', icon: 'M3 17h2l2-5h10l2 5h2M7 17a2 2 0 1 0 0 .1M17 17a2 2 0 1 0 0 .1M9 12V8h6v4', text: '[Llegar a Afropulco y la Costa Chica: transporte, hospedaje y alimentos para el trabajo en territorio.]' },
+      { title: 'Talleres y asambleas', color: '#FF5A36', icon: 'M4 19h16M6 19V9l6-4 6 4v10M10 19v-5h4v5', text: '[Materiales, espacios y alimentos para la formación política y la Cartilla de derechos.]' },
+      { title: 'Granja acuícola', color: '#0A75C2', icon: 'M3 12c3-4 7-4 10 0s7 4 8 0M3 17c3-4 7-4 10 0s7 4 8 0', text: '[Alevines, alimento e insumos para que las mujeres pescadoras siembren y cosechen.]' },
+      { title: 'Investigación', color: '#13A3A0', icon: 'M4 20V10M10 20V4M16 20v-7M22 20H2', text: '[Investigación afrocentrada y el Índice Afromexicano de Armonización Legislativa.]' }
+    ];
+
+    var moments = [
+      { year: '2021', date: '1 ene – 8 mar', title: 'Escribimos las primeras líneas', color: '#6B1E92', text: 'Empezamos a reunirnos y a nombrar los sentipensares. El 8 de marzo nació el proyecto que después sería la colectiva.' },
+      { year: '2021', date: '15 de junio', title: 'Primera Asamblea-Tallercita', color: '#FFB627', text: 'En el Museo Afromexicano de Huehuetán, acompañadas por la sociedad civil y el embajador de Sudáfrica en México.' },
+      { year: '[2023]', date: '[Fecha]', title: '[Momento clave por definir]', color: '#FF5A36', text: '[Descripción breve y archivos de ese año.]' },
+      { year: '2027', date: 'Próximamente', title: 'Índice Afromexicano', color: '#13A3A0', text: 'Publicación del Observatorio con resultados de los 32 estados.' }
+    ];
+
+    var palette = ['#6B1E92', '#0A75C2', '#FFB627', '#FF5A36', '#12A150', '#C2185B', '#13A3A0'];
+    var stripe = [];
+    for (var k = 0; k < 28; k++) { stripe.push(palette[k % 7]); }
+    var tones = ['#13A3A0', '#0E7C7A', '#7FD3D1', '#3A3038'];
+    var states = [];
+    for (var j = 0; j < 32; j++) { states.push(tones[(j * 5 + 1) % 4]); }
+
+    return {
+      ejes: ejes,
+      eje: eje,
+      post: POSTS[pi],
+      thumbs: thumbs,
+      prev: function () { self.setState({ post: (pi - 1 + n) % n }); },
+      next: function () { self.setState({ post: (pi + 1) % n }); },
+      uses: uses,
+      moments: moments,
+      stripe: stripe,
+      states: states
+    };
+  }
+}
+</script>
+</body>
+</html>
