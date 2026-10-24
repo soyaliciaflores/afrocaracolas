@@ -1,0 +1,48 @@
+---
+// Página provisional: solo título y marcador de lo que falta.
+interface Props {
+  titulo: string;
+  bloque?: number;
+  etiqueta?: string;
+  color?: string;
+  colorTexto?: string;
+}
+
+const {
+  titulo,
+  bloque,
+  etiqueta,
+  color = 'var(--color-negro-2)',
+  colorTexto = 'var(--color-blanco)',
+} = Astro.props;
+---
+
+<section class="en-construccion" style={`--fondo: ${color}; --tinta: ${colorTexto}`}>
+  <div class="contenedor">
+    {etiqueta && <p class="etiqueta">{etiqueta}</p>}
+    <h1>{titulo}</h1>
+    <p class="marcador">[Contenido en construcción — {bloque ? `Bloque ${bloque}` : 'Bloque por definir'}]</p>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .en-construccion {
+    background: var(--fondo);
+    color: var(--tinta);
+  }
+  .contenedor {
+    padding-block: var(--space-9);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  h1 {
+    font-size: clamp(40px, 7vw, 80px);
+    line-height: 0.96;
+    max-width: 20ch;
+  }
+  .marcador {
+    font-weight: 700;
+  }
+</style>

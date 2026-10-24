@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import EnConstruccion from '../../../components/EnConstruccion.astro';
+import { EJES, type Eje } from '../../../data/ejes';
+
+export function getStaticPaths() {
+  return EJES.map((eje, i) => ({
+    params: { eje: eje.slug },
+    props: { eje, numero: i + 1 },
+  }));
+}
+
+interface Props {
+  eje: Eje;
+  numero: number;
+}
+const { eje, numero } = Astro.props;
+---
+
+<BaseLayout title={eje.nombre}>
+  <EnConstruccion
+    titulo={eje.nombre}
+    etiqueta={`Eje ${numero} de ${EJES.length}`}
+    color={eje.color}
+    colorTexto={eje.colorTexto}
+  />
+</BaseLayout>
