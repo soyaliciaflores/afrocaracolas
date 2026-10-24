@@ -14,6 +14,14 @@ if (faltan.length > 0) {
 			'Valores: SANITY_PROJECT_ID=zw44t9i9 y SANITY_DATASET=production. Ver README.md.',
 	);
 }
+if (!/^[a-z0-9-]+$/.test(env.SANITY_PROJECT_ID) || !/^~?[a-z0-9_-]{1,64}$/.test(env.SANITY_DATASET)) {
+	throw new Error(
+		'Las variables de Sanity tienen un formato no válido:\n' +
+			`  SANITY_PROJECT_ID=${JSON.stringify(env.SANITY_PROJECT_ID)}\n` +
+			`  SANITY_DATASET=${JSON.stringify(env.SANITY_DATASET)}\n` +
+			'Deben ser exactamente zw44t9i9 y production: en minúsculas, sin comillas ni espacios.',
+	);
+}
 
 // https://astro.build/config
 // Las redirecciones viven en vercel.json (301 reales).
