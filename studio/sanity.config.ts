@@ -1,3 +1,4 @@
+import { esESLocale } from '@sanity/locale-es-es';
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { schemaTypes, SINGLETONS } from './schemas';
@@ -11,7 +12,7 @@ export default defineConfig({
   title: 'Afrocaracolas',
   projectId: 'zw44t9i9',
   dataset: 'production',
-  plugins: [structureTool({ title: 'Contenido', structure })],
+  plugins: [structureTool({ title: 'Contenido', structure }), esESLocale()],
   schema: {
     types: schemaTypes,
     templates: (anteriores) => [
