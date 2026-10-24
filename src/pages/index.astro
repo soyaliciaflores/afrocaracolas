@@ -1,9 +1,44 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import EnConstruccion from '../components/EnConstruccion.astro';
-import { SITE_TITLE } from '../consts';
+import Portada from '../components/inicio/Portada.astro';
+import QuienesSomos from '../components/inicio/QuienesSomos.astro';
+import EjesSelector from '../components/inicio/EjesSelector.astro';
+import DesdeTerritorio from '../components/inicio/DesdeTerritorio.astro';
+import Donativo from '../components/inicio/Donativo.astro';
+import LineaTiempo from '../components/inicio/LineaTiempo.astro';
+import Observatorio from '../components/inicio/Observatorio.astro';
+import LlamadoDona from '../components/inicio/LlamadoDona.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import {
+  getAjustes,
+  getEjes,
+  getMomentosRecientes,
+  getPaginaDona,
+  getPaginaInicio,
+  getPublicacionesRedes,
+} from '../lib/queries';
+import { urlImagen } from '../lib/sanity';
+
+const [inicio, ejes, publicaciones, dona, momentos, ajustes] = await Promise.all([
+  getPaginaInicio(),
+  getEjes(),
+  getPublicacionesRedes(4),
+  getPaginaDona(),
+  getMomentosRecientes(4),
+  getAjustes(),
+]);
+
+const fotoRedes = inicio?.fotosPortada[0];
+const imagenRedes = fotoRedes ? urlImagen(fotoRedes, 1200, 630) : undefined;
 ---
 
-<BaseLayout title={SITE_TITLE}>
-  <EnConstruccion titulo="Inicio" bloque={3} />
+<BaseLayout title={inicio?.etiquetaPortada ?? SITE_TITLE} description={inicio?.subtituloPortada ?? SITE_DESCRIPTION} image={imagenRedes}>
+  <Portada inicio={inicio} />
+  <QuienesSomos inicio={inicio} totalEjes={ejes.length} />
+  <EjesSelector ejes={ejes} />
+  <DesdeTerritorio publicaciones={publicaciones} instagram={ajustes?.redes.instagram} />
+  <Donativo dona={dona} />
+  <LineaTiempo momentos={momentos} />
+  <Observatorio />
+  <LlamadoDona />
 </BaseLayout>

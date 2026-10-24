@@ -1,0 +1,108 @@
+---
+import Marcador from '../Marcador.astro';
+import TextoEnriquecido from '../TextoEnriquecido.astro';
+import { colorEje } from '../../data/ejes';
+import type { PaginaDona } from '../../lib/queries';
+
+interface Props {
+  dona: PaginaDona | null;
+}
+const { dona } = Astro.props;
+
+// Sin eje, el borde de la tarjeta alterna coral, azul y verde.
+const ALTERNOS = ['var(--color-coral)', 'var(--color-azul)', 'var(--color-verde)'];
+const usos = (dona?.usos ?? []).map((u, i) => ({
+  ...u,
+  color: u.eje ? colorEje(u.eje.slug).color : ALTERNOS[i % ALTERNOS.length],
+}));
+---
+
+<section class="seccion seccion--clara donativo" aria-labelledby="donativo-titulo">
+  <div class="contenedor">
+    <div class="encabezado">
+      <div class="encabezado-texto">
+        <p class="etiqueta">Tu donativo en territorio</p>
+        <h2 id="donativo-titulo" class="titulo-seccion">¿Qué hacemos con tu donativo?</h2>
+        {
+          dona?.porQueDonar?.length ? (
+            <TextoEnriquecido bloques={dona.porQueDonar} class="por-que" />
+          ) : (
+            <Marcador texto="Texto: por qué donar — lo escribe la colectiva" />
+          )
+        }
+      </div>
+      <a class="boton" href="/dona">Dona</a>
+    </div>
+
+    <div class="usos">
+      {
+        usos.length > 0
+          ? usos.map((u) => (
+              <article style={`--u-color: ${u.color}`}>
+                <h3>{u.titulo}</h3>
+                {u.texto && <p>{u.texto}</p>}
+              </article>
+            ))
+          : ALTERNOS.map((color) => (
+              <article style={`--u-color: ${color}`}>
+                <Marcador texto="Uso del donativo: título y descripción" />
+              </article>
+            ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .donativo {
+    --s-fondo: var(--color-mango);
+    --s-tinta: var(--color-negro);
+  }
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+  .encabezado {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-5);
+  }
+  .encabezado-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    max-width: 720px;
+  }
+  .encabezado-texto :global(.por-que) {
+    font-size: 19px;
+  }
+  .encabezado .boton {
+    padding-inline: var(--space-6);
+  }
+  .usos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+    gap: 20px;
+  }
+  article {
+    background: var(--color-negro);
+    color: var(--color-blanco);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    border-top: 10px solid var(--u-color);
+  }
+  h3 {
+    font-size: 26px;
+    line-height: 1.1;
+  }
+  article p {
+    font-size: var(--font-size-sm);
+    color: var(--color-gris-texto);
+  }
+</style>

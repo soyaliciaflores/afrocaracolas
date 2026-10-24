@@ -2,6 +2,8 @@
 // Página provisional: solo título y marcador de lo que falta.
 interface Props {
   titulo: string;
+  /** Texto debajo del título, por ejemplo el nombre completo de una sigla. */
+  subtitulo?: string;
   bloque?: number;
   etiqueta?: string;
   color?: string;
@@ -10,6 +12,7 @@ interface Props {
 
 const {
   titulo,
+  subtitulo,
   bloque,
   etiqueta,
   color = 'var(--color-negro-2)',
@@ -20,7 +23,10 @@ const {
 <section class="en-construccion" style={`--fondo: ${color}; --tinta: ${colorTexto}`}>
   <div class="contenedor">
     {etiqueta && <p class="etiqueta">{etiqueta}</p>}
-    <h1>{titulo}</h1>
+    <div>
+      <h1>{titulo}</h1>
+      {subtitulo && <p class="subtitulo">{subtitulo}</p>}
+    </div>
     <p class="marcador">[Contenido en construcción — {bloque ? `Bloque ${bloque}` : 'Bloque por definir'}]</p>
     <slot />
   </div>
@@ -41,6 +47,11 @@ const {
     font-size: clamp(40px, 7vw, 80px);
     line-height: 0.96;
     max-width: 20ch;
+  }
+  .subtitulo {
+    margin-top: var(--space-3);
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
   }
   .marcador {
     font-weight: 700;

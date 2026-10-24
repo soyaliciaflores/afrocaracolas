@@ -62,6 +62,59 @@ img {
   text-transform: uppercase;
 }
 
+/* Botón: colores por variables (--b-fondo, --b-tinta, --b-borde) */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: var(--b-fondo, var(--color-negro));
+  color: var(--b-tinta, var(--color-blanco));
+  border: 2px solid var(--b-borde, transparent);
+  border-radius: var(--radius);
+  padding: 12px 28px;
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+.boton:hover {
+  color: var(--b-tinta, var(--color-blanco));
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Sección de fondo completo */
+.seccion {
+  background: var(--s-fondo, var(--color-negro));
+  color: var(--s-tinta, var(--color-blanco));
+}
+.seccion > .contenedor {
+  padding-block: var(--space-10);
+}
+/* En fondos claros, el foco y los enlaces van en negro para que se vean. */
+.seccion--clara {
+  --color-foco: var(--color-negro);
+}
+.seccion--clara a:not(.boton) {
+  color: var(--color-negro);
+  font-weight: 700;
+}
+.seccion--clara a:not(.boton):hover {
+  color: var(--color-negro);
+}
+@media (max-width: 720px) {
+  .seccion > .contenedor {
+    padding-block: var(--space-8);
+  }
+}
+
+.titulo-seccion {
+  font-size: clamp(36px, 6vw, 56px);
+  line-height: 1;
+}
+
 /* Contenedor centrado con márgenes laterales */
 .contenedor {
   max-width: var(--ancho-max);

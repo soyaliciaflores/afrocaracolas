@@ -1,0 +1,89 @@
+---
+// Textos fijos de la referencia de diseño aprobada (docs/diseno/inicio-referencia.html).
+const TONOS = ['#13A3A0', '#0E7C7A', '#7FD3D1', '#3A3038'];
+const cuadros = Array.from({ length: 32 }, (_, j) => TONOS[(j * 5 + 1) % TONOS.length]);
+---
+
+<section class="seccion seccion--clara observatorio" aria-labelledby="observatorio-titulo">
+  <div class="contenedor fila">
+    <div class="texto">
+      <div class="chips">
+        <span class="etiqueta chip chip-negro">Observatorio</span>
+        <span class="etiqueta chip chip-blanco">Próximamente</span>
+      </div>
+      <h2 id="observatorio-titulo">Índice Afromexicano de Armonización Legislativa</h2>
+      <p class="pregunta">
+        ¿Qué tanto han avanzado los congresos de los 32 estados en reconocer a los pueblos afromexicanos como
+        sujetos de derechos? Publicaremos el índice con resultados por entidad.
+      </p>
+      <p class="parte">Parte del eje Investigación afrocentrada</p>
+      <a class="boton" href="/observatorio">Conoce el Observatorio</a>
+    </div>
+    <div class="cuadricula" aria-hidden="true">
+      {cuadros.map((c) => <span style={`background: ${c}`} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .observatorio {
+    --s-fondo: var(--color-turquesa);
+    --s-tinta: var(--color-negro);
+  }
+  .fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-7);
+  }
+  .texto {
+    flex: 1 1 480px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .chip {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    padding: 5px var(--space-3);
+    border-radius: var(--radius-sm);
+  }
+  .chip-negro {
+    background: var(--color-negro);
+    color: var(--color-blanco);
+  }
+  .chip-blanco {
+    background: var(--color-blanco);
+    color: var(--color-negro);
+  }
+  h2 {
+    font-size: clamp(34px, 5.5vw, 52px);
+    line-height: 1.02;
+  }
+  .pregunta {
+    max-width: 580px;
+  }
+  .parte {
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .cuadricula {
+    flex: 1 1 420px;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 6px;
+    background: var(--color-negro);
+    padding: var(--space-4);
+  }
+  .cuadricula span {
+    aspect-ratio: 1 / 1;
+  }
+</style>

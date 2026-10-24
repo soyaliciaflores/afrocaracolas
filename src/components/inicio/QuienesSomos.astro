@@ -1,0 +1,107 @@
+---
+import Marcador from '../Marcador.astro';
+import { partirDestacado } from '../../lib/formato';
+import type { PaginaInicio } from '../../lib/queries';
+
+interface Props {
+  inicio: PaginaInicio | null;
+  totalEjes: number;
+}
+const { inicio, totalEjes } = Astro.props;
+
+const [antes, destacado, despues] = inicio?.fraseQuienesSomos
+  ? partirDestacado(inicio.fraseQuienesSomos, inicio.fraseQuienesSomosDestacada)
+  : ['', '', ''];
+
+const datos = [
+  { etiqueta: 'Desde', valor: inicio?.anioInicio?.toString(), color: 'var(--color-mango)', falta: 'Año de inicio' },
+  { etiqueta: 'Territorio', valor: inicio?.territorio, color: 'var(--color-coral)', falta: 'Territorio' },
+  { etiqueta: 'Ejes de trabajo', valor: totalEjes > 0 ? totalEjes.toLocaleString('es-MX') : undefined, color: 'var(--color-verde)', falta: 'Ejes: cárgalos en el Studio' },
+];
+---
+
+<section class="seccion quienes" aria-labelledby="quienes-titulo">
+  <div class="contenedor fila">
+    <div class="texto">
+      <h2 id="quienes-titulo" class="etiqueta">¿Quiénes somos las Afrocaracolas?</h2>
+      {
+        inicio?.fraseQuienesSomos ? (
+          <p class="frase">
+            {antes}
+            {destacado && <span class="destacado">{destacado}</span>}
+            {despues}
+          </p>
+        ) : (
+          <Marcador texto="Frase de «Quiénes somos»: cárgala en Página de Inicio" />
+        )
+      }
+      <a class="boton" href="/nosotras" style="--b-fondo: var(--color-blanco); --b-tinta: var(--color-negro)">
+        Conoce nuestra historia
+      </a>
+    </div>
+
+    <dl class="datos">
+      {
+        datos.map((d) => (
+          <div style={`--d-color: ${d.color}`}>
+            <dt class="etiqueta">{d.etiqueta}</dt>
+            <dd>{d.valor ?? <Marcador texto={d.falta} />}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  .fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-8);
+  }
+  .texto {
+    flex: 1 1 560px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  h2 {
+    font-family: var(--font-body);
+    font-size: var(--font-size-etiqueta);
+    color: var(--color-mango);
+  }
+  .frase {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(28px, 4.2vw, 40px);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .destacado {
+    color: var(--color-mango);
+  }
+  .datos {
+    flex: 1 1 340px;
+    min-width: 0;
+    margin: 0;
+  }
+  .datos > div {
+    border-top: 3px solid var(--d-color);
+    padding-block: var(--space-4);
+  }
+  dt {
+    color: #bdb3bf;
+    letter-spacing: 0.1em;
+  }
+  dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 1.2;
+  }
+</style>

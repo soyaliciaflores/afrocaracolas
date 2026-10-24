@@ -1,0 +1,388 @@
+---
+import ImagenSanity from '../ImagenSanity.astro';
+import Marcador from '../Marcador.astro';
+import { colorEje } from '../../data/ejes';
+import type { EjeResumen } from '../../lib/queries';
+
+interface Props {
+  ejes: EjeResumen[];
+  /** Slug del eje que se ve al abrir la página. */
+  inicial?: string;
+}
+const { ejes, inicial = 'autonomia-politica' } = Astro.props;
+
+const activo = ejes.some((e) => e.slug === inicial) ? inicial : ejes[0]?.slug;
+const conColor = ejes.map((e) => ({ ...e, ...colorEje(e.slug) }));
+const flecha = 'M5 12h14M13 6l6 6-6 6';
+---
+
+<section class="seccion ejes" aria-labelledby="ejes-titulo">
+  <div class="contenedor">
+    <div class="encabezado">
+      <div class="encabezado-texto">
+        <p class="etiqueta">Ejes de trabajo</p>
+        <h2 id="ejes-titulo" class="titulo-seccion">Siete caminos, un mismo territorio</h2>
+        <p class="ayuda">Elige un eje para ver de qué trata y qué proyectos lo sostienen.</p>
+      </div>
+      <a class="ver-todos" href="/ejes">Ver todos los ejes</a>
+    </div>
+
+    {ejes.length === 0 && <Marcador texto="Ejes de trabajo: cárgalos en el Studio" />}
+
+    <!-- Sin JavaScript: lista de enlaces a cada eje -->
+    <ul class="lista-sin-js">
+      {
+        conColor.map((e) => (
+          <li>
+            <a href={`/ejes/${e.slug}`} style={`--e-color: ${e.color}`}>
+              <span class="muestra" aria-hidden="true" />
+              <span>
+                {e.nombre}
+                {e.nombreCompleto && <span class="lista-completo">{e.nombreCompleto}</span>}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Con JavaScript: pestañas -->
+    <div class="selector" data-ejes>
+      <div class="pestanas" role="tablist" aria-label="Ejes de trabajo" aria-orientation="vertical">
+        {
+          conColor.map((e, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`eje-tab-${e.slug}`}
+              aria-controls={`eje-panel-${e.slug}`}
+              aria-selected={e.slug === activo ? 'true' : 'false'}
+              tabindex={e.slug === activo ? 0 : -1}
+              style={`--e-color: ${e.color}; --e-tinta: ${e.colorTexto}; --orden: ${i * 2}`}
+            >
+              <span class="muestra" aria-hidden="true" />
+              <span class="pestana-nombre">{e.nombre}</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d={flecha} />
+              </svg>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="paneles">
+        {
+          conColor.map((e, i) => (
+            <div
+              role="tabpanel"
+              id={`eje-panel-${e.slug}`}
+              aria-labelledby={`eje-tab-${e.slug}`}
+              tabindex="0"
+              hidden={e.slug !== activo}
+              class="panel"
+              style={`--e-color: ${e.color}; --e-tinta: ${e.colorTexto}; --orden: ${i * 2 + 1}`}
+            >
+              {e.fotoPrincipal ? (
+                <ImagenSanity
+                  imagen={e.fotoPrincipal}
+                  proporcion={16 / 7}
+                  sizes="(min-width: 1240px) 760px, (min-width: 960px) 60vw, 100vw"
+                  class="panel-foto"
+                />
+              ) : (
+                <Marcador texto={`Foto del eje: ${e.nombre}`} proporcion="16 / 7" fondo="var(--color-negro)" />
+              )}
+              <div class="panel-cuerpo">
+                <p class="etiqueta">
+                  Eje {e.orden} de {ejes.length}
+                </p>
+                <div>
+                  <h3>{e.nombre}</h3>
+                  {e.nombreCompleto && <p class="nombre-completo">{e.nombreCompleto}</p>}
+                </div>
+                {e.descripcionCorta ? (
+                  <p>{e.descripcionCorta}</p>
+                ) : (
+                  <Marcador texto="Descripción corta del eje: cárgala en el Studio" fondo="var(--color-negro)" />
+                )}
+                <div class="proyectos">
+                  <p class="etiqueta">Proyectos</p>
+                  {e.proyectos.length > 0 ? (
+                    <ul>
+                      {e.proyectos.map((p) => (
+                        <li>
+                          <a href={`/ejes/${e.slug}/${p.slug}`}>
+                            <span>{p.nombre}</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                              <path d={flecha} />
+                            </svg>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <Marcador texto="Proyectos del eje: cárgalos en el Studio" fondo="var(--color-negro)" />
+                  )}
+                </div>
+                <a class="ir-al-eje" href={`/ejes/${e.slug}`}>
+                  Ir al eje {e.nombre}
+                </a>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  for (const raiz of document.querySelectorAll<HTMLElement>('[data-ejes]')) {
+    const pestanas = Array.from(raiz.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+
+    const activar = (pestana: HTMLButtonElement, enfocar = false) => {
+      for (const p of pestanas) {
+        const elegida = p === pestana;
+        p.setAttribute('aria-selected', String(elegida));
+        p.tabIndex = elegida ? 0 : -1;
+        const panel = document.getElementById(p.getAttribute('aria-controls') ?? '');
+        if (panel) panel.hidden = !elegida;
+      }
+      if (enfocar) pestana.focus();
+    };
+
+    pestanas.forEach((pestana, i) => {
+      pestana.addEventListener('click', () => activar(pestana));
+      pestana.addEventListener('keydown', (e) => {
+        const destino = {
+          ArrowDown: pestanas[(i + 1) % pestanas.length],
+          ArrowRight: pestanas[(i + 1) % pestanas.length],
+          ArrowUp: pestanas[(i - 1 + pestanas.length) % pestanas.length],
+          ArrowLeft: pestanas[(i - 1 + pestanas.length) % pestanas.length],
+          Home: pestanas[0],
+          End: pestanas[pestanas.length - 1],
+        }[e.key];
+        if (destino) {
+          e.preventDefault();
+          activar(destino, true);
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  .ejes {
+    --s-fondo: var(--color-negro-2);
+  }
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+  .encabezado {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-4);
+  }
+  .encabezado-texto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: 720px;
+  }
+  .encabezado .etiqueta {
+    color: var(--color-mango);
+  }
+  .ayuda {
+    color: var(--color-gris-texto);
+  }
+  .ver-todos {
+    font-weight: 700;
+  }
+
+  .muestra {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    background: var(--e-color);
+    border: 2px solid currentColor;
+  }
+
+  /* Lista sin JavaScript */
+  .lista-sin-js {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: var(--space-2);
+  }
+  .lista-sin-js a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 2px solid var(--e-color);
+    border-radius: var(--radius-sm);
+    color: var(--color-blanco);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 21px;
+  }
+  .lista-completo {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--font-size-sm);
+  }
+  :global(.js) .lista-sin-js {
+    display: none;
+  }
+
+  /* Pestañas */
+  .selector {
+    display: none;
+  }
+  :global(.js) .selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    align-items: stretch;
+  }
+  .pestanas {
+    flex: 1 1 340px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  [role='tab'] {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    text-align: left;
+    padding: 14px 18px;
+    border: 2px solid var(--e-color);
+    border-radius: var(--radius-sm);
+    background: var(--color-negro);
+    color: var(--color-blanco);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 21px;
+    line-height: 1.15;
+    cursor: pointer;
+  }
+  [role='tab'][aria-selected='true'] {
+    background: var(--e-color);
+    color: var(--e-tinta);
+  }
+  .pestana-nombre {
+    flex: 1 1 auto;
+  }
+  .paneles {
+    flex: 2 1 560px;
+    min-width: 0;
+  }
+  .panel {
+    background: var(--e-color);
+    color: var(--e-tinta);
+    box-shadow: 12px 12px 0 var(--color-blanco);
+    display: flex;
+    flex-direction: column;
+    --color-foco: var(--e-tinta);
+  }
+  .panel[hidden] {
+    display: none;
+  }
+  .panel :global(.panel-foto) {
+    width: 100%;
+    height: auto;
+    background: var(--color-negro);
+  }
+  .panel-cuerpo {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  h3 {
+    font-size: clamp(32px, 4.5vw, 44px);
+    line-height: 1.02;
+  }
+  .nombre-completo {
+    margin-top: var(--space-2);
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .proyectos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .proyectos .etiqueta {
+    letter-spacing: 0.1em;
+  }
+  .proyectos ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .proyectos a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    background: var(--color-negro);
+    color: var(--color-blanco);
+    text-decoration: none;
+    font-weight: 700;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    --color-foco: var(--color-negro);
+  }
+  .proyectos a:hover span {
+    text-decoration: underline;
+  }
+  .proyectos svg {
+    flex: 0 0 auto;
+  }
+  .ir-al-eje {
+    align-self: flex-start;
+    color: var(--e-tinta);
+    font-weight: 700;
+  }
+  .ir-al-eje:hover {
+    color: var(--e-tinta);
+  }
+
+  /* Celular: el panel aparece justo debajo del eje elegido. */
+  @media (max-width: 959px) {
+    :global(.js) .selector {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: var(--space-2);
+    }
+    .pestanas,
+    .paneles {
+      display: contents;
+    }
+    [role='tab'],
+    .panel {
+      order: var(--orden);
+    }
+    .panel {
+      margin: var(--space-2) 12px var(--space-5) 0;
+    }
+    .panel-cuerpo {
+      padding: var(--space-5);
+    }
+  }
+</style>

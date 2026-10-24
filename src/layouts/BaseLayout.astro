@@ -8,7 +8,7 @@ import { LANG_TAGS, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 interface Props {
   title: string;
   description?: string;
-  image?: ImageMetadata;
+  image?: ImageMetadata | string;
 }
 const { title, description = SITE_DESCRIPTION, image } = Astro.props;
 const pageTitle = title === SITE_TITLE ? SITE_TITLE : `${title} · ${SITE_TITLE}`;

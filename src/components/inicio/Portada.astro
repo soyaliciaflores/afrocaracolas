@@ -1,0 +1,156 @@
+---
+import ImagenSanity from '../ImagenSanity.astro';
+import Marcador from '../Marcador.astro';
+import { partirDestacado } from '../../lib/formato';
+import type { PaginaInicio } from '../../lib/queries';
+
+interface Props {
+  inicio: PaginaInicio | null;
+}
+const { inicio } = Astro.props;
+
+const [antes, destacado, despues] = inicio?.tituloPortada
+  ? partirDestacado(inicio.tituloPortada, inicio.tituloDestacado)
+  : ['', '', ''];
+
+// Tres huecos de la cuadrícula: el primero grande (16:9), los otros dos cuadrados.
+const huecos = [
+  { proporcion: 16 / 9, css: '16 / 9', fondo: 'var(--color-azul)', tinta: 'var(--color-blanco)', sizes: '(min-width: 1100px) 560px, (min-width: 720px) 45vw, 100vw' },
+  { proporcion: 1, css: '1 / 1', fondo: 'var(--color-coral)', tinta: 'var(--color-negro)', sizes: '(min-width: 1100px) 280px, (min-width: 720px) 22vw, 50vw' },
+  { proporcion: 1, css: '1 / 1', fondo: 'var(--color-verde)', tinta: 'var(--color-negro)', sizes: '(min-width: 1100px) 280px, (min-width: 720px) 22vw, 50vw' },
+];
+const fotos = inicio?.fotosPortada ?? [];
+---
+
+<section class="seccion portada" aria-labelledby="portada-titulo">
+  <div class="contenedor fila">
+    <div class="texto">
+      {
+        inicio?.etiquetaPortada ? (
+          <p class="etiqueta chip">{inicio.etiquetaPortada}</p>
+        ) : (
+          <Marcador texto="Etiqueta de la portada" fondo="var(--color-mango)" tinta="var(--color-negro)" />
+        )
+      }
+      {
+        inicio?.tituloPortada ? (
+          <h1 id="portada-titulo">
+            {antes}
+            {destacado && <span class="destacado">{destacado}</span>}
+            {despues}
+          </h1>
+        ) : (
+          <h1 id="portada-titulo">
+            <Marcador texto="Título de la portada: cárgalo en Página de Inicio" fondo="var(--color-negro)" />
+          </h1>
+        )
+      }
+      {
+        inicio?.subtituloPortada ? (
+          <p class="subtitulo">{inicio.subtituloPortada}</p>
+        ) : (
+          <Marcador texto="Subtítulo de la portada" fondo="var(--color-negro)" />
+        )
+      }
+      <div class="botones">
+        <a class="boton" href="/dona" style="--b-fondo: var(--color-mango); --b-tinta: var(--color-negro)">Dona</a>
+        <a class="boton" href="/ejes">Conoce nuestro trabajo</a>
+      </div>
+    </div>
+
+    <div class="fotos">
+      {
+        huecos.map((h, i) =>
+          fotos[i] ? (
+            <div class={`foto foto-${i + 1}`}>
+              <ImagenSanity imagen={fotos[i]} proporcion={h.proporcion} sizes={h.sizes} prioridad />
+            </div>
+          ) : (
+            <Marcador
+              class={`foto foto-${i + 1}`}
+              texto={`Foto de portada ${i + 1}: súbela en Página de Inicio`}
+              proporcion={h.css}
+              fondo={h.fondo}
+              tinta={h.tinta}
+              marco
+            />
+          ),
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .portada {
+    --s-fondo: var(--color-morado);
+  }
+  .portada > .contenedor {
+    padding-block: var(--space-9);
+  }
+  .fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-8);
+  }
+  .texto {
+    flex: 1 1 540px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+  .chip {
+    background: var(--color-mango);
+    color: var(--color-negro);
+    padding: 6px var(--space-3);
+    border-radius: var(--radius-sm);
+  }
+  h1 {
+    font-size: clamp(44px, 8vw, 80px);
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+  }
+  .destacado {
+    color: var(--color-mango);
+  }
+  .subtitulo {
+    max-width: 580px;
+    font-size: 20px;
+    color: #f1e4f8;
+  }
+  .botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .fotos {
+    flex: 1 1 420px;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .fotos :global(.foto-1) {
+    grid-column: span 2;
+  }
+  .foto {
+    border: var(--borde-foto);
+    background: var(--color-negro);
+  }
+  .foto :global(img) {
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 480px) {
+    .fila {
+      gap: var(--space-7);
+    }
+    .texto,
+    .fotos {
+      flex-basis: 100%;
+    }
+  }
+</style>
