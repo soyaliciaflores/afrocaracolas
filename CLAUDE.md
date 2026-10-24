@@ -74,10 +74,10 @@ Cada eje tiene un color fijo que se usa en todo el sitio (etiquetas, tarjetas, l
 | Autonomía política | `autonomia-politica` | `#6B1E92` morado | blanco |
 | Autonomía económica | `autonomia-economica` | `#FFB627` mango | negro |
 | Formación Cimarrona | `formacion-cimarrona` | `#FF5A36` coral | negro |
-| ElCAfro | `elcafro` | `#C2185B` magenta | blanco |
+| EICAfro | `eicafro` | `#C2185B` magenta | blanco |
 | Investigación afrocentrada | `investigacion-afrocentrada` | `#13A3A0` turquesa | negro |
 
-ElCAfro = El Cine Afro.
+EICAfro = Escuela Itinerante de Cine Afro.
 
 Proyectos confirmados de Autonomía política: *Agenda Política de los derechos político-electorales de las mujeres afromexicanas* y *Cartilla de derechos de las mujeres afromexicanas*. Los demás ejes todavía no tienen proyectos confirmados.
 

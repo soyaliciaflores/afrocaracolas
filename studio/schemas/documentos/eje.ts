@@ -10,7 +10,7 @@ export const SLUGS_EJES = [
   'autonomia-politica',
   'autonomia-economica',
   'formacion-cimarrona',
-  'elcafro',
+  'eicafro',
   'investigacion-afrocentrada',
 ];
 
@@ -26,6 +26,13 @@ export const eje = defineType({
       type: 'textoLocal',
       description: 'Nombre del eje tal como aparece en el sitio.',
       validation: (r) => r.required(),
+    }),
+    defineField({
+      name: 'nombreCompleto',
+      title: 'Nombre completo',
+      type: 'textoLocal',
+      description:
+        'Opcional. Si el nombre es una sigla, escríbela completa (por ejemplo, Escuela Itinerante de Cine Afro). Se muestra debajo del nombre en los títulos grandes.',
     }),
     defineField({
       name: 'slug',
