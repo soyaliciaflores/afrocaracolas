@@ -114,12 +114,13 @@ export interface Integrante {
 export interface Ajustes {
   correo?: string;
   redes: { instagram?: string; facebook?: string; tiktok?: string };
-  leyendaDonataria: string;
   donorboxUrl?: string;
 }
 
 export interface PaginaNosotras {
   intro?: Bloques;
+  mision?: Bloques;
+  vision?: Bloques;
   porQueAfrocaracolas?: Bloques;
   comoTrabajamos?: Bloques;
   incidencia?: Bloques;
@@ -163,9 +164,9 @@ const proyectoResumen = `{
 const notaCampos = `
   _id,
   "slug": slug.current,
-  "titulo": title,
+  "titulo": ${l('title')},
   "fecha": publishedAt,
-  "resumen": excerpt,
+  "resumen": ${l('excerpt')},
   "tipo": coalesce(tipo, "noticia"),
   "imagen": heroImage{ "url": asset->url, "alt": altText },
   ${ejeRef},
@@ -204,13 +205,12 @@ function fetch<T>(query: string, params: Record<string, unknown> = {}): Promise<
   return getSanityClient().fetch<T>(query, { lang: 'es', ...params });
 }
 
-/** Ajustes generales: correo, redes, leyenda de donataria, Donorbox. */
+/** Ajustes generales: correo, redes, Donorbox. */
 export function getAjustes(lang: Lang = 'es') {
   return fetch<Ajustes>(
     `*[_id == "ajustesSitio"][0]{
       correo,
       "redes": coalesce(redes, {}),
-      "leyendaDonataria": ${l('leyendaDonataria')},
       donorboxUrl
     }`,
     { lang },
@@ -297,7 +297,7 @@ export function getNota(slug: string, lang: Lang = 'es') {
   return fetch<Nota | null>(
     `*[_type == "nota" && slug.current == $slug][0]{
       ${notaCampos},
-      "cuerpo": body,
+      "cuerpo": ${l('body')},
       "archivos": coalesce(archivos[]{ "titulo": ${l('titulo')}, "url": archivo.asset->url }, [])
     }`,
     { slug, lang },
@@ -339,6 +339,8 @@ export function getPaginaNosotras(lang: Lang = 'es') {
   return fetch<PaginaNosotras | null>(
     `*[_id == "paginaNosotras"][0]{
       "intro": ${l('intro')},
+      "mision": ${l('mision')},
+      "vision": ${l('vision')},
       "porQueAfrocaracolas": ${l('porQueAfrocaracolas')},
       "comoTrabajamos": ${l('comoTrabajamos')},
       "incidencia": ${l('incidencia')},

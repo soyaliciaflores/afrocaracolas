@@ -4,7 +4,7 @@ import { nota } from './documentos/nota';
 import { proyecto } from './documentos/proyecto';
 import { publicacionRedes } from './documentos/publicacionRedes';
 import { imagen } from './objetos/imagen';
-import { bloqueLocal, textoLargoLocal, textoLocal } from './objetos/localizados';
+import { bloqueLocal, contenidoLocal, textoLargoLocal, textoLocal } from './objetos/localizados';
 import { ajustesSitio, paginaDona, paginaNosotras } from './singletons';
 
 export const schemaTypes = [
@@ -12,6 +12,7 @@ export const schemaTypes = [
   textoLocal,
   textoLargoLocal,
   bloqueLocal,
+  contenidoLocal,
   imagen,
   // Documentos únicos
   ajustesSitio,

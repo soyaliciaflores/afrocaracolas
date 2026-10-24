@@ -37,6 +37,7 @@ const bloques = [
     styles: [
       { title: 'Párrafo', value: 'normal' },
       { title: 'Subtítulo', value: 'h3' },
+      { title: 'Subtítulo pequeño', value: 'h4' },
       { title: 'Cita', value: 'blockquote' },
     ],
     lists: [
@@ -80,6 +81,20 @@ export const bloqueLocal = defineType({
   fields: [
     defineField({ name: 'es', title: 'Español', type: 'array', of: bloques, validation: esObligatorio }),
     defineField({ name: 'en', title: 'English', type: 'array', of: bloques, fieldset: 'ingles' }),
+  ],
+});
+
+// Como bloqueLocal, pero también admite fotos entre los párrafos (contenido de las notas).
+const bloquesConImagen = [...bloques, defineArrayMember({ type: 'imagen' })];
+
+export const contenidoLocal = defineType({
+  name: 'contenidoLocal',
+  title: 'Contenido con fotos',
+  type: 'object',
+  fieldsets: [fieldsetIngles],
+  fields: [
+    defineField({ name: 'es', title: 'Español', type: 'array', of: bloquesConImagen, validation: esObligatorio }),
+    defineField({ name: 'en', title: 'English', type: 'array', of: bloquesConImagen, fieldset: 'ingles' }),
   ],
 });
 

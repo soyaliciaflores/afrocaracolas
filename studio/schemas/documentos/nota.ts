@@ -1,7 +1,7 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
-// Los campos originales (title, slug, publishedAt, excerpt, heroImage, body) se conservan
-// con el mismo nombre para no perder los datos ya publicados.
+// Los campos originales (title, slug, publishedAt, excerpt, heroImage, body) conservan su nombre.
+// title, excerpt y body pasaron a dos idiomas con scripts/migracion-cierre-bloque-2.mjs.
 export const nota = defineType({
   name: 'nota',
   title: 'Nota o momento',
@@ -11,7 +11,7 @@ export const nota = defineType({
     defineField({
       name: 'title',
       title: 'Título',
-      type: 'string',
+      type: 'textoLocal',
       validation: (r) => r.required().error('Escribe el título.'),
     }),
     defineField({
@@ -19,7 +19,7 @@ export const nota = defineType({
       title: 'Slug (URL)',
       type: 'slug',
       description: 'Parte final de la dirección. Genérala con el botón «Generate».',
-      options: { source: 'title', maxLength: 96 },
+      options: { source: 'title.es', maxLength: 96 },
       validation: (r) => r.required(),
     }),
     defineField({
@@ -76,8 +76,7 @@ export const nota = defineType({
     defineField({
       name: 'excerpt',
       title: 'Resumen',
-      type: 'text',
-      rows: 3,
+      type: 'textoLargoLocal',
       description: 'Breve descripción que aparece en listados y redes sociales.',
     }),
     defineField({
@@ -98,23 +97,8 @@ export const nota = defineType({
     defineField({
       name: 'body',
       title: 'Contenido',
-      type: 'array',
-      of: [
-        defineArrayMember({ type: 'block' }),
-        defineArrayMember({
-          type: 'image',
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'altText',
-              title: 'Texto alternativo',
-              type: 'string',
-              validation: (r) => r.required().error('Agrega el texto alternativo de la imagen.'),
-            }),
-            defineField({ name: 'caption', title: 'Pie de foto', type: 'string' }),
-          ],
-        }),
-      ],
+      type: 'contenidoLocal',
+      description: 'El texto de la nota. Puedes poner fotos entre los párrafos.',
     }),
     defineField({
       name: 'archivos',
@@ -141,7 +125,7 @@ export const nota = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title', fecha: 'publishedAt', tipo: 'tipo', media: 'heroImage' },
+    select: { title: 'title.es', fecha: 'publishedAt', tipo: 'tipo', media: 'heroImage' },
     prepare({ title, fecha, tipo, media }) {
       const tipos: Record<string, string> = { noticia: 'Noticia', momento: 'Momento', archivoHistorico: 'Archivo histórico' };
       return {
