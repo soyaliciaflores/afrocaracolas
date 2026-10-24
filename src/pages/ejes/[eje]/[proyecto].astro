@@ -1,29 +1,31 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import EnConstruccion from '../../../components/EnConstruccion.astro';
-import { EJES, type Eje, type Proyecto } from '../../../data/ejes';
+import { colorEje } from '../../../data/ejes';
+import { getProyecto, getProyectos, type ProyectoResumen } from '../../../lib/queries';
 
-export function getStaticPaths() {
-  return EJES.flatMap((eje) =>
-    eje.proyectos.map((proyecto) => ({
-      params: { eje: eje.slug, proyecto: proyecto.slug },
-      props: { eje, proyecto },
-    })),
-  );
+export async function getStaticPaths() {
+  const proyectos = await getProyectos();
+  return proyectos.map((proyecto) => ({
+    params: { eje: proyecto.eje.slug, proyecto: proyecto.slug },
+    props: { proyecto },
+  }));
 }
 
 interface Props {
-  eje: Eje;
-  proyecto: Proyecto;
+  proyecto: ProyectoResumen;
 }
-const { eje, proyecto } = Astro.props;
+const { proyecto: resumen } = Astro.props;
+const proyecto = (await getProyecto(resumen.eje.slug, resumen.slug)) ?? resumen;
+const { color, colorTexto } = colorEje(proyecto.eje.slug);
 ---
 
-<BaseLayout title={proyecto.nombre}>
+<BaseLayout title={proyecto.nombre} description={proyecto.resumen}>
   <EnConstruccion
     titulo={proyecto.nombre}
-    etiqueta={`Eje · ${eje.nombre}`}
-    color={eje.color}
-    colorTexto={eje.colorTexto}
+    etiqueta={`Eje · ${proyecto.eje.nombre}`}
+    bloque={4}
+    color={color}
+    colorTexto={colorTexto}
   />
 </BaseLayout>

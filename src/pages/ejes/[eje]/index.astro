@@ -1,27 +1,32 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import EnConstruccion from '../../../components/EnConstruccion.astro';
-import { EJES, type Eje } from '../../../data/ejes';
+import { colorEje } from '../../../data/ejes';
+import { getEje, getEjes, type EjeResumen } from '../../../lib/queries';
 
-export function getStaticPaths() {
-  return EJES.map((eje, i) => ({
+export async function getStaticPaths() {
+  const ejes = await getEjes();
+  return ejes.map((eje) => ({
     params: { eje: eje.slug },
-    props: { eje, numero: i + 1 },
+    props: { eje, total: ejes.length },
   }));
 }
 
 interface Props {
-  eje: Eje;
-  numero: number;
+  eje: EjeResumen;
+  total: number;
 }
-const { eje, numero } = Astro.props;
+const { eje: resumen, total } = Astro.props;
+const eje = (await getEje(resumen.slug)) ?? resumen;
+const { color, colorTexto } = colorEje(eje.slug);
 ---
 
-<BaseLayout title={eje.nombre}>
+<BaseLayout title={eje.nombre} description={eje.descripcionCorta}>
   <EnConstruccion
     titulo={eje.nombre}
-    etiqueta={`Eje ${numero} de ${EJES.length}`}
-    color={eje.color}
-    colorTexto={eje.colorTexto}
+    etiqueta={`Eje ${eje.orden} de ${total}`}
+    bloque={4}
+    color={color}
+    colorTexto={colorTexto}
   />
 </BaseLayout>
