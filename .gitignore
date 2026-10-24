@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+.env.local
+
+# Sanity Studio (generado)
+studio/.sanity/
+studio/node_modules/
+studio/dist/

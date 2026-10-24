@@ -8,10 +8,6 @@ import { defineConfig, fontProviders } from 'astro/config';
 export default defineConfig({
 	site: 'https://afrocaracolas.org',
 	integrations: [mdx(), sitemap()],
-	redirects: {
-		'/blog': '/notas',
-		'/about': '/quienes-somos',
-	},
 	fonts: [
 		{
 			provider: fontProviders.local(),

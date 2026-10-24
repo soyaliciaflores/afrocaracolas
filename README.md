@@ -1,63 +1,41 @@
-# Astro Starter Kit: Blog
+# Afrocaracolas · sitio web
+
+Sitio de **Afrocaracolas**, colectiva antirracista y afrofeminista de mujeres afromexicanas que trabaja en Afropulco y la Costa Chica de Guerrero ([afrocaracolas.org](https://afrocaracolas.org)).
+
+- Sitio: [Astro](https://astro.build) con salida estática y TypeScript.
+- Contenido: [Sanity](https://www.sanity.io). El Studio vive en `studio/` (projectId `zw44t9i9`, dataset `production`).
+- Despliegue: Vercel, como Preview de la rama `rediseno`.
+
+Las reglas del proyecto (contenido, diseño, git) están en [CLAUDE.md](CLAUDE.md).
+
+## Cómo correrlo
+
+Requiere Node 22.12 o más reciente.
 
 ```sh
-npm create astro@latest -- --template blog
+npm install
+cp .env.example .env   # y llena los valores
+npm run dev            # http://localhost:4321
+npm run build          # genera el sitio en dist/
+npm run preview        # sirve dist/ en local
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Studio de Sanity (aparte, con sus propias dependencias):
 
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+```sh
+cd studio
+npm install
+npm run dev            # http://localhost:3333
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Variables de entorno
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Van en `.env` (no se sube al repo). La plantilla es `.env.example`.
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+| Variable | Para qué sirve | Obligatoria |
+|---|---|---|
+| `SANITY_PROJECT_ID` | Proyecto de Sanity (`zw44t9i9`). Si falta, el sitio se construye sin leer contenido de Sanity. | No |
+| `SANITY_DATASET` | Dataset de Sanity. Por defecto `production`. | No |
+| `DONORBOX_URL` | URL del formulario de Donorbox para la página Dona. | No |
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+El sitio solo lee contenido publicado por el CDN de Sanity, así que no necesita token.
