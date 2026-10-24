@@ -28,8 +28,8 @@ export const ajustesSitio = defineType({
       name: 'leyendaDonataria',
       title: 'Leyenda de donataria',
       type: 'textoLargoLocal',
-      description: 'Aviso sobre la deducibilidad de los donativos. Aparece en todas las secciones de donar.',
-      validation: (r) => r.required(),
+      description:
+        'Déjalo vacío. El sitio no menciona el estatus de donataria ni la deducibilidad de impuestos; si hace falta, se consulta antes.',
     }),
     defineField({
       name: 'donorboxUrl',
@@ -111,6 +111,8 @@ export const paginaNosotras = defineType({
   type: 'document',
   fields: [
     defineField({ name: 'intro', title: 'Introducción', type: 'bloqueLocal', description: 'Quiénes somos, en pocas palabras.' }),
+    defineField({ name: 'mision', title: 'Misión', type: 'bloqueLocal', description: 'Sin el subtítulo «Misión»: el sitio lo pone.' }),
+    defineField({ name: 'vision', title: 'Visión', type: 'bloqueLocal', description: 'Sin el subtítulo «Visión»: el sitio lo pone.' }),
     defineField({ name: 'porQueAfrocaracolas', title: '¿Por qué Afrocaracolas?', type: 'bloqueLocal', description: 'El origen del nombre.' }),
     defineField({ name: 'comoTrabajamos', title: 'Cómo trabajamos', type: 'bloqueLocal' }),
     defineField({ name: 'incidencia', title: 'Incidencia', type: 'bloqueLocal' }),
