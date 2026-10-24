@@ -27,20 +27,35 @@ if (!SANITY_PROJECT_ID || !SANITY_DATASET || (!SANITY_WRITE_TOKEN && !simular)) 
 
 // ── Datos fijos (CLAUDE.md) ──────────────────────────────────────────────
 
+// [nombre, slug, nombreCompleto opcional]
 const EJES = [
   ['Justicia climática y racial', 'justicia-climatica-y-racial'],
   ['Granja Acuícola', 'granja-acuicola'],
   ['Autonomía política', 'autonomia-politica'],
   ['Autonomía económica', 'autonomia-economica'],
   ['Formación Cimarrona', 'formacion-cimarrona'],
-  ['ElCAfro', 'elcafro'],
+  ['EICAfro', 'eicafro', 'Escuela Itinerante de Cine Afro'],
   ['Investigación afrocentrada', 'investigacion-afrocentrada'],
 ];
 
 // Documentos que se reemplazaron por otro _id. Se borran solo si nada los referencia.
 const REEMPLAZADOS = {
-  'eje-eicafro': 'eje-elcafro', // El eje se llama ElCAfro (El Cine Afro), no EICAfro.
+  'eje-elcafro': 'eje-eicafro', // El nombre correcto es EICAfro; ElCAfro fue un error del cierre del Bloque 2.
 };
+
+// Página de Inicio: palabras de Gema, tal como las dio Alicia para el Bloque 3.
+const PAGINA_INICIO = {
+  etiquetaPortada: 'Colectiva antirracista y afrofeminista',
+  tituloPortada: 'Hoy alzamos nuestras voces cimarronas',
+  tituloDestacado: 'voces cimarronas',
+  subtituloPortada:
+    'Somos mujeres afromexicanas que exigimos y anhelamos las reparaciones históricas para los pueblos y comunidades afrodescendientes. Trabajamos en territorio, en Afropulco y la Costa Chica de Guerrero.',
+  fraseQuienesSomos:
+    'Nos llamamos Afrocaracolas porque somos mujeres valientes, como nuestras abuelas, que reencarnan simbólicamente en caracolas. Nuestras historias vienen del mar.',
+  fraseQuienesSomosDestacada: 'Nuestras historias vienen del mar.',
+  territorio: 'Afropulco y Costa Chica',
+};
+const ANIO_INICIO = 2021;
 
 const PROYECTOS = [
   ['Agenda Política de los derechos político-electorales de las mujeres afromexicanas', 'agenda-politica', 'autonomia-politica'],
@@ -205,13 +220,46 @@ if (sobrantes.length > 0) {
   throw new Error(`Hay párrafos de ${RUTA_GEMA} sin asignar:\n${sobrantes.map((p) => `  · ${p.slice(0, 80)}…`).join('\n')}`);
 }
 
+// ── Momentos de 2021 (línea del tiempo) ───────────────────────────────────
+// El resumen es el texto de Gema tal cual: la primera oración del párrafo «Empezamos a
+// reunirnos…» y el párrafo completo «Nunca olvidaremos…».
+
+const parrafoGema = (inicio) => {
+  const p = gema.find((t) => t.startsWith(inicio));
+  if (!p) throw new Error(`No encontré en ${RUTA_GEMA} el párrafo que empieza «${inicio}».`);
+  return p;
+};
+const primeraOracion = (texto) => texto.slice(0, texto.indexOf('. ') + 1);
+
+const MOMENTOS = [
+  {
+    _id: 'momento-2021-primeras-lineas',
+    titulo: 'Escribimos las primeras líneas',
+    slug: 'escribimos-las-primeras-lineas',
+    fecha: '2021-03-08T18:00:00.000Z', // mediodía en México
+    resumen: primeraOracion(parrafoGema('Empezamos a reunirnos')),
+  },
+  {
+    _id: 'momento-2021-primera-asamblea',
+    titulo: 'Primera Asamblea-Tallercita',
+    slug: 'primera-asamblea-tallercita',
+    fecha: '2021-06-15T17:00:00.000Z', // mediodía en México
+    resumen: parrafoGema('Nunca olvidaremos'),
+  },
+];
+
 // ── Documentos ────────────────────────────────────────────────────────────
 
 let documentos = [
-  ...EJES.map(([nombre, slug], i) => ({
+  ...EJES.map(([nombre, slug, nombreCompleto], i) => ({
     _id: `eje-${slug}`,
     _type: 'eje',
-    campos: { nombre: local(nombre), slug: { _type: 'slug', current: slug }, orden: i + 1 },
+    campos: {
+      nombre: local(nombre),
+      ...(nombreCompleto && { nombreCompleto: local(nombreCompleto) }),
+      slug: { _type: 'slug', current: slug },
+      orden: i + 1,
+    },
   })),
   ...PROYECTOS.map(([nombre, slug, eje]) => ({
     _id: `proyecto-${slug}`,
@@ -225,6 +273,28 @@ let documentos = [
   })),
   { _id: 'ajustesSitio', _type: 'ajustesSitio', campos: { redes: REDES } },
   { _id: 'paginaNosotras', _type: 'paginaNosotras', campos: paginaNosotras },
+  {
+    _id: 'paginaInicio',
+    _type: 'paginaInicio',
+    campos: {
+      ...Object.fromEntries(
+        Object.entries(PAGINA_INICIO).map(([campo, texto]) => [campo, local(texto)]),
+      ),
+      anioInicio: ANIO_INICIO,
+    },
+  },
+  ...MOMENTOS.map(({ _id, titulo, slug, fecha, resumen }) => ({
+    _id,
+    _type: 'nota',
+    campos: {
+      title: local(titulo),
+      slug: { _type: 'slug', current: slug },
+      tipo: 'momento',
+      enLineaDelTiempo: true,
+      publishedAt: fecha,
+      excerpt: local(resumen),
+    },
+  })),
 ];
 
 if (solo) {
